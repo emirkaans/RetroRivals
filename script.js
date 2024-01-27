@@ -74,7 +74,15 @@ class Match {
   goal(teamName) {
     this.score[teamName] += 1;
   }
-  _playMatch() {}
+
+  penalty(team) {}
+
+  corner(team) {}
+
+  offside() {}
+
+  _startMatch() {}
+  _finishMatch() {}
 }
 
 const match = new Match(fenerbahce, galatasaray);
