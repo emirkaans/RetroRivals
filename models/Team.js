@@ -9,6 +9,7 @@ export class Team {
 
     this._calculateAttack();
     this._calculateDefense();
+    this._setPlayersTeam();
   }
 
   addPlayer(newPlayer) {
@@ -34,6 +35,12 @@ export class Team {
     const managerEffect = (manager.knowledge + manager.tactics + manager.motivation + manager.discipline) / 4;
 
     return managerEffect;
+  }
+
+  _setPlayersTeam() {
+    this.players.map(player => {
+      player.team = this;
+    });
   }
 
   _calculateAttack() {

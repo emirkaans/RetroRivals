@@ -4,6 +4,8 @@ import { Manager } from './models/Manager.js';
 import { GoalKeeper } from './models/GoalKeeper.js';
 import { Footballer } from './models/Footballer.js';
 import { Team } from './models/Team.js';
+import { randomUpTo } from './helpers.js';
+import { commentCorner } from './speaker.js';
 
 // Fenerbahçe Players
 
@@ -15,9 +17,9 @@ const emreBelozoglu = new Footballer('Emre Belözoğlu', '5', 34, 169, 17, 'OS',
 const gokcekVederson = new Footballer('Gökçek Vederson', '6', 28, 174, 18, 'DF', 18, 15, 16, 16, 15, 15, 15, 14, 16);
 const alexDeSouza = new Footballer('Alex De Souza', '10', 32, 173, 18, 'OS', 19, 15, 18, 15, 18, 17, 15, 17, 18);
 const ugurBoral = new Footballer('Uğur Boral', '25', 23, 176, 18, 'OS', 17, 16, 16, 16, 15, 17, 14, 15, 16);
-const colinKazım = new Footballer('Colin Kazım', '8', 24, 178, 19, 'FV', 18, 15, 16, 17, 16, 16, 15, 15, 17);
-const daniGuiza = new Footballer('Dani Guiza', '14', 28, 180, 18, 'FV', 17, 17, 17, 16, 15, 16, 16, 14, 16);
-const semihSenturk = new Footballer('Semih Şentürk', '23', 24, 176, 18, 'FV', 16, 16, 19, 17, 16, 17, 17, 15, 17);
+const colinKazım = new Footballer('Colin Kazım', '8', 24, 183, 19, 'FV', 18, 15, 16, 17, 16, 16, 15, 15, 17);
+const daniGuiza = new Footballer('Dani Guiza', '14', 28, 184, 18, 'FV', 17, 17, 17, 16, 15, 16, 16, 14, 16);
+const semihSenturk = new Footballer('Semih Şentürk', '23', 24, 180, 18, 'FV', 16, 16, 19, 17, 16, 17, 17, 15, 17);
 
 const playersFenerbahce = [volkanDemirel, diegoLugano, robertoCarlos, eduDracena, emreBelozoglu, gokcekVederson, alexDeSouza, ugurBoral, colinKazım, daniGuiza, semihSenturk];
 
@@ -33,7 +35,7 @@ const fenerbahce = new Team('Fenerbahçe', 900000000, zico, playersFenerbahce);
 
 // Galatasaray Players
 
-const morganDeSanctis = new GoalKeeper('Morgan De Sanctis', '26', 31, 190, 18, 'KL', 16, 15, 14);
+const mondragon = new GoalKeeper('Mondragon', '26', 31, 190, 18, 'KL', 16, 15, 14);
 const emreAsik = new Footballer('Emre Aşık', '4', 35, 187, 17, 'DF', 16, 12, 13, 11, 9, 10, 15, 8, 9);
 const servetCetin = new Footballer('Servet Çetin', '21', 27, 192, 18, 'DF', 15, 16, 12, 10, 8, 9, 16, 7, 8);
 const hakanBalta = new Footballer('Hakan Balta', '22', 25, 183, 17, 'DF', 16, 13, 14, 12, 10, 16, 14, 9, 17);
@@ -45,7 +47,7 @@ const baros = new Footballer('Milan Baroš', '15', 26, 182, 17, 'FV', 18, 16, 17
 const nonda = new Footballer('Shabani Nonda', '9', 31, 180, 16, 'FV', 16, 15, 16, 17, 15, 16, 16, 13, 17);
 const umitKaran = new Footballer('Ümit Karan', '18', 31, 184, 17, 'FV', 16, 14, 15, 16, 17, 18, 17, 12, 13);
 
-const playersGalatasaray = [morganDeSanctis, emreAsik, servetCetin, hakanBalta, sabriSarioglu, ayhanAkman, ardaTuran, lincoln, baros, nonda, umitKaran];
+const playersGalatasaray = [mondragon, emreAsik, servetCetin, hakanBalta, sabriSarioglu, ayhanAkman, ardaTuran, lincoln, baros, nonda, umitKaran];
 
 // Galatasaray Manager
 
@@ -62,31 +64,112 @@ class Match {
     this.time = 0;
     this.isMatchOver = false;
 
-    this.setScore();
+    // Set Starting Conditions
+    this._setScore();
+    this._setWhoHasBall(teamHome);
+    this._setStatistics(teamHome);
+    this._setStatistics(teamAway);
   }
 
-  setScore() {
+  _setScore() {
     this.score = {};
     this.score[this.teamHome.fullName] = 0;
     this.score[this.teamAway.fullName] = 0;
   }
 
-  goal(teamName) {
-    this.score[teamName] += 1;
+  _setWhoHasBall(team) {
+    this.whoHasBall = team;
   }
+
+  _setStatistics(team) {
+    team.statistics = {
+      score: 0,
+      shoots: 0,
+      shootsOnTarget: 0,
+      possesion: 0 / 100,
+      offsides: 0,
+      corners: 0,
+      fouls: 0,
+      yellowCard: 0,
+      redCard: 0,
+    };
+
+    team.players.map(player => {
+      if (player.position === 'KL') {
+        player.statistics = {
+          saves: 0,
+        };
+      } else {
+        player.statistics = {
+          goals: 0,
+          assists: 0,
+          shoots: 0,
+          shootsOnTarget: 0,
+          fouls: 0,
+          yellowCard: 0,
+          redCard: 0,
+        };
+      }
+    });
+  }
+
+  _goal(team, isDirect, player) {
+    if (isDirect) {
+      team.statistics.shot++;
+      team.statistics.shotsOnTarget++;
+      team.statistics.score++;
+    } else {
+      const possiblePlayers = team.players.filter(player => player.position === 'OS' || player.position === 'FV');
+      const scorer = player || possiblePlayers[randomUpTo(possiblePlayers.length)];
+
+      console.log(`Gol gol gol! ${scorer.fullName} topu ağlara gönderiyor!`);
+
+      this._checkOffside();
+    }
+  }
+
+  _checkOffside(team) {
+    setTimeout(() => {
+      if (randomUpTo(100) > 85) {
+        console.log('Ancak Hakemin bayrağı havada, ağlara giden top gol değeri kazanmıyor!');
+      } else {
+        team.statistics.score++;
+      }
+    }, 2000);
+  }
+
+  fouls(team) {}
 
   penalty(team) {}
 
-  corner(team) {}
+  _corner(teamAttack, teamDefense) {
+    const attackPlayers = teamAttack.players.filter(player => player.position !== 'KL' && player.height >= 180);
+    const defensePlayers = teamDefense.players.filter(player => player.position !== 'KL' && player.height >= 180);
+    const goalKeeper = teamDefense.players.filter(player => player.position === 'KL')[0];
 
-  offside() {}
+    if ((goalKeeper.reflexes + goalKeeper.bounce) / 2 > randomUpTo(100)) {
+      console.log(commentCorner(undefined, goalKeeper, false, false));
+    } else {
+      const allPlayers = [...attackPlayers, ...defensePlayers];
+      const whoHeadedBall = allPlayers[randomUpTo(allPlayers.length)];
+
+      if (whoHeadedBall.team.fullName === teamDefense.fullName) {
+        console.log(commentCorner(whoHeadedBall, undefined, false, false));
+      } else {
+        if (randomUpTo(100) < 80) {
+          console.log(commentCorner(whoHeadedBall, goalKeeper, true, false));
+        } else {
+          console.log(commentCorner(whoHeadedBall, goalKeeper, true, true));
+          this._goal(teamAttack, true, whoHeadedBall);
+        }
+      }
+    }
+
+    teamAttack.statistics.corner++;
+  }
 
   _startMatch() {}
   _finishMatch() {}
 }
 
 const match = new Match(fenerbahce, galatasaray);
-
-match.goal(fenerbahce.fullName);
-
-console.log(match);
