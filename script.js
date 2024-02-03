@@ -1,72 +1,25 @@
 'use strict';
 
-import { Manager } from './models/Manager.js';
-import { GoalKeeper } from './models/GoalKeeper.js';
-import { Footballer } from './models/Footballer.js';
-import { Team } from './models/Team.js';
 import { commentCorner } from './speaker/speaker.js';
 import { randomUpTo } from './helpers.js';
 import { waitSeconds } from './helpers.js';
+import { buildTeam } from './builders/TeamBuilder.js';
 
-const responseFener = await fetch('./players/fenerbahce.json');
-const playersDataFener = await responseFener.json();
+const responseFener = await fetch('./data/fenerbahce.json');
+const fenerbahceData = await responseFener.json();
 
-const responseGalata = await fetch('./players/galatasaray.json');
-const playersDataGalata = await responseGalata.json();
+const responseGalata = await fetch('./data/galatasaray.json');
+const galatasarayData = await responseGalata.json();
 
-const createPlayers = playerList => {
-  const players = playerList.players.map(playerData => {
-    if (playerData.type === 'GoalKeeper') {
-      return new GoalKeeper(playerData.fullName, playerData.playerNumber, playerData.age, playerData.height, playerData.health, playerData.position, playerData.reflexes, playerData.bounce, playerData.oneOnOne);
-    } else if (playerData.type === 'Footballer') {
-      return new Footballer(
-        playerData.fullName,
-        playerData.playerNumber,
-        playerData.age,
-        playerData.height,
-        playerData.health,
-        playerData.position,
-        playerData.technique,
-        playerData.speed,
-        playerData.finishing,
-        playerData.shooting,
-        playerData.dribbling,
-        playerData.defense,
-        playerData.tackling,
-        playerData.aggression,
-        playerData.stamina
-      );
-    }
-  });
+const fenerbahce = buildTeam(fenerbahceData);
 
-  return players;
-};
+const galatasaray = buildTeam(galatasarayData);
 
-// Fenerbahçe Players
+console.log(fenerbahce);
 
-const playersFenerbahce = createPlayers(playersDataFener);
-
-// Fenerbahçe Manager
-
-const zico = new Manager('Zico', 17, 18, 18, 15);
-
-// Fenerbahçe Team
-
-const fenerbahce = new Team('Fenerbahçe', 900000000, zico, playersFenerbahce);
+console.log(galatasaray);
 
 // ////////////////////////////////
-
-// Galatasaray Players
-
-const playersGalatasaray = createPlayers(playersDataGalata);
-
-// Galatasaray Manager
-
-const fatihTerim = new Manager('Fatih Terim', 16, 18, 18, 18);
-
-// Galatasaray Team
-
-const galatasaray = new Team('Galatasaray', 800000000, fatihTerim, playersGalatasaray);
 
 class Match {
   constructor(teamHome, teamAway) {

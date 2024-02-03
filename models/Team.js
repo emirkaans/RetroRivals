@@ -1,15 +1,23 @@
 'use strict';
 
+import { Manager } from './Manager.js';
+
 export class Team {
-  constructor(fullName, budget, manager, players) {
+  constructor(fullName, budget, members) {
     this.fullName = fullName;
     this.budget = budget;
-    this.manager = manager;
-    this.players = players;
+    this.members = members;
 
+    this._parseMembers();
     this._calculateAttack();
     this._calculateDefense();
-    this._setPlayersTeam();
+    this._setTeamToPlayers();
+  }
+
+  _parseMembers() {
+    this.manager = this.members.find(member => member instanceof Manager);
+    this.players = this.members.filter(member => !(member instanceof Manager));
+    delete this.members;
   }
 
   addPlayer(newPlayer) {
@@ -26,7 +34,7 @@ export class Team {
     this.budget += amount;
   }
 
-  listInjuredPlayers() {
+  getInjuredPlayers() {
     return this.players.filter(player => player.health < 60);
   }
 
@@ -37,7 +45,7 @@ export class Team {
     return managerEffect;
   }
 
-  _setPlayersTeam() {
+  _setTeamToPlayers() {
     this.players.map(player => {
       player.team = this;
     });
