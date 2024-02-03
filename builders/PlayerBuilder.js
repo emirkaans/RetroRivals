@@ -6,7 +6,7 @@ import { Footballer } from '../models/Footballer.js';
 export const buildPlayers = player => {
   if (player.type === 'GoalKeeper') {
     return new GoalKeeper(player.fullName, player.playerNumber, player.age, player.height, player.health, player.position, player.reflexes, player.bounce, player.oneOnOne);
-  } else if (player.type === 'Footballer') {
+  } else {
     return new Footballer(
       player.fullName,
       player.playerNumber,
