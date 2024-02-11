@@ -51,20 +51,20 @@ export class Team {
     });
   }
 
-  _getOffensivePlayers() {
+  getOffensivePlayers() {
     return this.players.filter(player => {
       return player.position === 'OS' || player.position === 'FV';
     });
   }
 
-  _getDefensivePlayers() {
+  getDefensivePlayers() {
     return this.players.filter(player => {
       return player.position === 'DF';
     });
   }
 
   _calculatePlayersAttack() {
-    const offensivePlayers = this._getOffensivePlayers();
+    const offensivePlayers = this.getOffensivePlayers();
 
     return (
       offensivePlayers.reduce((prev, player) => {
@@ -74,7 +74,7 @@ export class Team {
   }
 
   _calculatePlayersDefence() {
-    const defensivePlayers = this._getDefensivePlayers();
+    const defensivePlayers = this.getDefensivePlayers();
 
     return (
       defensivePlayers.reduce((prev, player) => {

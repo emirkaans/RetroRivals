@@ -3,7 +3,6 @@
 export class Stats {
   constructor(teamHome, teamAway) {
     this.time = 0;
-
     this._setTeamsStatistics([teamHome, teamAway]);
   }
 
@@ -46,13 +45,17 @@ export class Stats {
     });
   }
 
-  _findPlayer(player, team) {
+  findPlayer(player, team) {
     return team.find(teamPlayer => teamPlayer.fullName === player.fullName);
   }
 
+  findTeam(team) {
+    return this[team.fullName];
+  }
+
   _goal(team, player) {
-    const currentTeam = this[team.fullName];
-    const currentPlayer = this._findPlayer(player, currentTeam.players);
+    const currentTeam = this.findTeam(team);
+    const currentPlayer = this.findPlayer(player, currentTeam.players);
 
     currentTeam.team.score++;
     currentTeam.team.shots++;
@@ -62,11 +65,19 @@ export class Stats {
     currentPlayer.shotsOnTarget++;
   }
 
+  _corner(team) {
+    const currentTeam = this.findTeam(team);
+
+    currentTeam.team.corner++;
+  }
+
   update(event, team, player) {
-    console.log(`${player.fullName} attığı ${event} ile takımını sırtlıyor!`);
+    // console.log(`${player.fullName} attığı ${event} ile takımını sırtlıyor!`);
 
     if (event === 'goal') {
       this._goal(team, player);
+    } else if (event === 'corner') {
+      this._corner(team);
     }
   }
 }

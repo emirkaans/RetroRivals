@@ -48,26 +48,15 @@ class Match {
     this.whoHasBall = team;
   }
 
-  async _goal(team, isDirect, player) {
+  _goal(team, isDirect, player) {
     if (isDirect) {
       this.notifyObservers('goal', team, player);
-      // team.statistics.shot++;
-      // team.statistics.shotsOnTarget++;
-      // team.statistics.score++;
-      // player.statistics.score++;
-      // player.statistics.shot++;
-      // player.statistics.shotsOnTarget++;
     } else {
-      const possiblePlayers = team.players.filter(player => player.position === 'OS' || player.position === 'FV');
-      const scorer = player || getRandomItem(possiblePlayers);
+      const scorer = player || getRandomItem(team.getOffensivePlayers());
 
-      console.log(`Gol gol gol! ${scorer.fullName} topu ağlara gönderiyor!`);
+      this.notifyObservers('goal', team, scorer);
 
-      scorer.statistics.score++;
-      scorer.statistics.shot++;
-      scorer.statistics.shotsOnTarget++;
-
-      await this._checkOffside(team);
+      // await this._checkOffside(team);
     }
   }
 
@@ -91,7 +80,7 @@ class Match {
   async _corner(teamAttack, teamDefense) {
     const attackPlayers = teamAttack.players.filter(player => player.position !== 'KL' && player.height >= 180);
     const defensePlayers = teamDefense.players.filter(player => player.position !== 'KL' && player.height >= 180);
-    const goalKeeper = teamDefense.players.filter(player => player.position === 'KL')[0];
+    const goalKeeper = teamDefense.players.find(player => player.position === 'KL');
 
     if ((goalKeeper.reflexes + goalKeeper.bounce) / 2 > randomUpTo(100)) {
       console.log(await commentCorner(undefined, goalKeeper, false, false));
@@ -115,7 +104,11 @@ class Match {
   }
 
   async _startMatch() {
-    await this._goal(this.teamHome, true, getRandomItem(this.teamHome.players));
+    this._goal(this.teamHome, true, getRandomItem(this.teamHome.players));
+
+    this._goal(this.teamAway, false, undefined);
+
+    await this._corner(this.teamAway, this.teamHome);
 
     // await this._goal(this.teamHome, undefined, undefined);
 
