@@ -1,23 +1,22 @@
 'use strict';
 
 import { commentCorner } from './speaker/speaker.js';
-import { randomUpTo } from './helpers.js';
-import { waitSeconds } from './helpers.js';
+import { getRandomItem, randomUpTo, waitSeconds, getDataFrom } from './helpers.js';
 import { buildTeam } from './builders/TeamBuilder.js';
+import { Stats } from './models/Stats.js';
+import { Commentator } from './models/Commentator.js';
 
-const responseFener = await fetch('./data/fenerbahce.json');
-const fenerbahceData = await responseFener.json();
-
-const responseGalata = await fetch('./data/galatasaray.json');
-const galatasarayData = await responseGalata.json();
+const fenerbahceData = await getDataFrom('./data/fenerbahce.json');
+const galatasarayData = await getDataFrom('./data/galatasaray.json');
 
 const fenerbahce = buildTeam(fenerbahceData);
-
 const galatasaray = buildTeam(galatasarayData);
 
 console.log(fenerbahce);
-
 console.log(galatasaray);
+
+// DOM Elements
+const commentContainer = document.querySelector('#comment');
 
 // ////////////////////////////////
 
@@ -27,69 +26,40 @@ class Match {
     this.teamAway = teamAway;
     this.time = 0;
     this.isMatchOver = false;
+    this.observers = [];
 
     // Set Starting Conditions
-    this._setScore();
-    this._setWhoHasBall(teamHome);
-    this._setStatistics(teamHome);
-    this._setStatistics(teamAway);
 
+    this._setWhoHasBall(teamHome);
+    this.addObserver(new Commentator());
+    this.addObserver(new Stats(teamHome, teamAway));
     this._startMatch();
   }
 
-  _setScore() {
-    this.score = {};
-    this.score[this.teamHome.fullName] = 0;
-    this.score[this.teamAway.fullName] = 0;
+  addObserver(observer) {
+    this.observers.push(observer);
+  }
+
+  notifyObservers(event, team, player) {
+    this.observers.forEach(observer => observer.update(event, team, player));
   }
 
   _setWhoHasBall(team) {
     this.whoHasBall = team;
   }
 
-  _setStatistics(team) {
-    team.statistics = {
-      score: 0,
-      shots: 0,
-      shotsOnTarget: 0,
-      possesion: 0 / 100,
-      offsides: 0,
-      corners: 0,
-      fouls: 0,
-      yellowCard: 0,
-      redCard: 0,
-    };
-
-    team.players.map(player => {
-      if (player.position === 'KL') {
-        player.statistics = {
-          saves: 0,
-        };
-      } else {
-        player.statistics = {
-          goals: 0,
-          assists: 0,
-          shots: 0,
-          shotsOnTarget: 0,
-          fouls: 0,
-          yellowCard: 0,
-          redCard: 0,
-        };
-      }
-    });
-  }
-
   async _goal(team, isDirect, player) {
     if (isDirect) {
-      team.statistics.shot++;
-      team.statistics.shotsOnTarget++;
-      team.statistics.score++;
-      player.statistics.score++;
-      player.statistics.shot++;
-      player.statistics.shotsOnTarget++;
+      this.notifyObservers('goal', team, player);
+      // team.statistics.shot++;
+      // team.statistics.shotsOnTarget++;
+      // team.statistics.score++;
+      // player.statistics.score++;
+      // player.statistics.shot++;
+      // player.statistics.shotsOnTarget++;
     } else {
       const possiblePlayers = team.players.filter(player => player.position === 'OS' || player.position === 'FV');
-      const scorer = player || possiblePlayers[randomUpTo(possiblePlayers.length)];
+      const scorer = player || getRandomItem(possiblePlayers);
 
       console.log(`Gol gol gol! ${scorer.fullName} topu ağlara gönderiyor!`);
 
@@ -127,7 +97,7 @@ class Match {
       console.log(await commentCorner(undefined, goalKeeper, false, false));
     } else {
       const allPlayers = [...attackPlayers, ...defensePlayers];
-      const whoHeadedBall = allPlayers[randomUpTo(allPlayers.length)];
+      const whoHeadedBall = getRandomItem(allPlayers);
 
       if (whoHeadedBall.team.fullName === teamDefense.fullName) {
         console.log(await commentCorner(whoHeadedBall, undefined, false, false));
@@ -145,15 +115,17 @@ class Match {
   }
 
   async _startMatch() {
-    await this._goal(this.teamHome, undefined, undefined);
+    await this._goal(this.teamHome, true, getRandomItem(this.teamHome.players));
 
-    await waitSeconds(3);
+    // await this._goal(this.teamHome, undefined, undefined);
 
-    await this._goal(this.teamAway, undefined, undefined);
+    // await waitSeconds(3);
 
-    await waitSeconds(3);
+    // await this._goal(this.teamAway, undefined, undefined);
 
-    await this._corner(this.teamHome, this.teamAway);
+    // await waitSeconds(3);
+
+    // await this._corner(this.teamHome, this.teamAway);
   }
   _finishMatch() {}
 }
@@ -162,4 +134,6 @@ class Match {
 //   const match = new Match(fenerbahce, galatasaray);
 // }
 
-// const match = new Match(fenerbahce, galatasaray);
+const match = new Match(fenerbahce, galatasaray);
+
+console.log(match);

@@ -9,8 +9,8 @@ export class Team {
     this.members = members;
 
     this._parseMembers();
-    this._calculateAttack();
-    this._calculateDefense();
+    this._calculateTeamAttack();
+    this._calculateTeamDefense();
     this._setTeamToPlayers();
   }
 
@@ -38,7 +38,7 @@ export class Team {
     return this.players.filter(player => player.health < 60);
   }
 
-  getManagerEffect() {
+  _getManagerEffect() {
     const manager = this.manager;
     const managerEffect = (manager.knowledge + manager.tactics + manager.motivation + manager.discipline) / 4;
 
@@ -51,41 +51,43 @@ export class Team {
     });
   }
 
-  _calculateAttack() {
-    const offensivePlayers = this.players.filter(player => {
+  _getOffensivePlayers() {
+    return this.players.filter(player => {
       return player.position === 'OS' || player.position === 'FV';
     });
-    const averageAttackPoints = [];
-    offensivePlayers.map(player => {
-      const playerAverage = Math.round((player.health + player.technique + player.speed + player.finishing + player.shooting + player.dribbling + player.tackling + player.stamina) / 8);
-
-      averageAttackPoints.push(playerAverage);
-    });
-
-    const playersAttack =
-      averageAttackPoints.reduce((prev, cur) => {
-        return prev + cur;
-      }, 0) / averageAttackPoints.length;
-
-    this.attack = Math.round((playersAttack + this.getManagerEffect()) / 2);
   }
 
-  _calculateDefense() {
-    const defensivePlayers = this.players.filter(player => {
+  _getDefensivePlayers() {
+    return this.players.filter(player => {
       return player.position === 'DF';
     });
-    const averageDefensePoints = [];
-    defensivePlayers.map(player => {
-      const playerAverage = Math.round((player.health + player.defense + player.tackling + player.stamina) / 4);
+  }
 
-      averageDefensePoints.push(playerAverage);
-    });
+  _calculatePlayersAttack() {
+    const offensivePlayers = this._getOffensivePlayers();
 
-    const playersDefense =
-      averageDefensePoints.reduce((prev, cur) => {
-        return prev + cur;
-      }, 0) / averageDefensePoints.length;
+    return (
+      offensivePlayers.reduce((prev, player) => {
+        return prev + Math.round((player.health + player.technique + player.speed + player.finishing + player.shooting + player.dribbling + player.tackling + player.stamina) / 8);
+      }, 0) / offensivePlayers.length
+    );
+  }
 
-    this.defense = Math.round((playersDefense + this.getManagerEffect()) / 2);
+  _calculatePlayersDefence() {
+    const defensivePlayers = this._getDefensivePlayers();
+
+    return (
+      defensivePlayers.reduce((prev, player) => {
+        return prev + Math.round((player.health + player.defense + player.tackling + player.stamina) / 4);
+      }, 0) / defensivePlayers.length
+    );
+  }
+
+  _calculateTeamAttack() {
+    this.attack = Math.round((this._calculatePlayersAttack() + this._getManagerEffect()) / 2);
+  }
+
+  _calculateTeamDefense() {
+    this.defense = Math.round((this._calculatePlayersDefence() + this._getManagerEffect()) / 2);
   }
 }

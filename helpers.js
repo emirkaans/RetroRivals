@@ -7,3 +7,13 @@ export const randomUpTo = percentage => {
 export const waitSeconds = async second => {
   return await new Promise(resolve => setTimeout(resolve, second * 1000));
 };
+
+export const getRandomItem = array => {
+  return array[randomUpTo(array.length)];
+};
+
+export const getDataFrom = async url => {
+  const response = await fetch(url);
+
+  return await response.json();
+};
