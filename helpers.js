@@ -17,3 +17,9 @@ export const getDataFrom = async url => {
 
   return await response.json();
 };
+
+// Possibilities
+
+export const isGkSaveCorner = goalKeeper => {
+  return (goalKeeper.reflexes + goalKeeper.bounce) / 2 > randomUpTo(100);
+};

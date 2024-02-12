@@ -1,7 +1,6 @@
 'use strict';
 
-import { commentCorner } from './speaker/speaker.js';
-import { getRandomItem, randomUpTo, waitSeconds, getDataFrom } from './helpers.js';
+import { getRandomItem, randomUpTo, waitSeconds, getDataFrom, isGkSaveCorner } from './helpers.js';
 import { buildTeam } from './builders/TeamBuilder.js';
 import { Stats } from './models/Stats.js';
 import { Commentator } from './models/Commentator.js';
@@ -24,7 +23,6 @@ class Match {
   constructor(teamHome, teamAway) {
     this.teamHome = teamHome;
     this.teamAway = teamAway;
-    this.time = 0;
     this.isMatchOver = false;
     this.observers = [];
 
@@ -33,6 +31,8 @@ class Match {
     this._setWhoHasBall(teamHome);
     this.addObserver(new Commentator());
     this.addObserver(new Stats(teamHome, teamAway));
+    this.setStats();
+    this.setCommentator();
     this._startMatch();
   }
 
@@ -42,6 +42,14 @@ class Match {
 
   notifyObservers(event, team, player) {
     this.observers.forEach(observer => observer.update(event, team, player));
+  }
+
+  setStats() {
+    this.stats = this.observers.find(observer => observer instanceof Stats);
+  }
+
+  setCommentator() {
+    this.commentator = this.observers.find(observer => observer instanceof Commentator);
   }
 
   _setWhoHasBall(team) {
@@ -82,25 +90,28 @@ class Match {
     const defensePlayers = teamDefense.players.filter(player => player.position !== 'KL' && player.height >= 180);
     const goalKeeper = teamDefense.players.find(player => player.position === 'KL');
 
-    if ((goalKeeper.reflexes + goalKeeper.bounce) / 2 > randomUpTo(100)) {
-      console.log(await commentCorner(undefined, goalKeeper, false, false));
+    if (isGkSaveCorner(goalKeeper)) {
+      console.log('gk_save_corner');
+      this.notifyObservers('gk_save_corner', teamDefense, goalKeeper);
     } else {
       const allPlayers = [...attackPlayers, ...defensePlayers];
       const whoHeadedBall = getRandomItem(allPlayers);
+      const isDfSuccess = whoHeadedBall.team.fullName === teamDefense.fullName;
 
-      if (whoHeadedBall.team.fullName === teamDefense.fullName) {
-        console.log(await commentCorner(whoHeadedBall, undefined, false, false));
+      if (isDfSuccess) {
+        console.log('df_save_corner');
+        this.notifyObservers('df_save_corner', teamDefense, whoHeadedBall);
       } else {
         if (randomUpTo(100) < 80) {
-          console.log(await commentCorner(whoHeadedBall, goalKeeper, true, false));
+          console.log('fv_shot_corner');
+          console.log('gk_save_shot');
+          this.notifyObservers('fv_shot_corner', teamAttack, whoHeadedBall);
+          this.notifyObservers('gk_save_shot', teamDefense, goalKeeper);
         } else {
-          console.log(await commentCorner(whoHeadedBall, goalKeeper, true, true));
           this._goal(teamAttack, true, whoHeadedBall);
         }
       }
     }
-
-    teamAttack.statistics.corner++;
   }
 
   async _startMatch() {
@@ -113,12 +124,6 @@ class Match {
     // await this._goal(this.teamHome, undefined, undefined);
 
     // await waitSeconds(3);
-
-    // await this._goal(this.teamAway, undefined, undefined);
-
-    // await waitSeconds(3);
-
-    // await this._corner(this.teamHome, this.teamAway);
   }
   _finishMatch() {}
 }

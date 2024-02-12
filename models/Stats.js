@@ -6,6 +6,14 @@ export class Stats {
     this._setTeamsStatistics([teamHome, teamAway]);
   }
 
+  update(event, team, player) {
+    if (event === 'goal') {
+      this._goal(team, player);
+    } else if (event === 'corner') {
+      this._corner(team);
+    }
+  }
+
   _setTeamsStatistics(teams) {
     teams.map(team => {
       this[team.fullName] = {
@@ -69,15 +77,5 @@ export class Stats {
     const currentTeam = this.findTeam(team);
 
     currentTeam.team.corner++;
-  }
-
-  update(event, team, player) {
-    // console.log(`${player.fullName} attığı ${event} ile takımını sırtlıyor!`);
-
-    if (event === 'goal') {
-      this._goal(team, player);
-    } else if (event === 'corner') {
-      this._corner(team);
-    }
   }
 }
