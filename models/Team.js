@@ -51,6 +51,10 @@ export class Team {
     });
   }
 
+  getFootballers() {
+    return this.players.filter(player => player.position !== 'GK');
+  }
+
   getOffensivePlayers() {
     return this.players.filter(player => {
       return player.position === 'OS' || player.position === 'FV';

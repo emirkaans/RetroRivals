@@ -1,0 +1,45 @@
+MATCH START
+'match_start'
+
+SHOT 
+'fv_shot'
+'df_save_shot'
+'gk_save_shot'
+
+FREE KICK
+'freekick'
+'df_save_freekick'
+'gk_save_freekick'
+
+PENALTY 
+'penalty'
+'gk_save_penalty'
+
+GOAL
+'goal'
+
+GOAL CANCEL
+'goal_cancel'
+
+ASSIST
+'assist'
+
+CORNER
+'corner'
+'gk_save_corner'
+'df_save_corner'
+'fv_shot_corner'
+
+FOUL
+'foul'
+'foul_yellow'
+'foul_red'
+
+OFFSIDE
+'offside'
+
+FIRST HALF END
+'first_half_end'
+
+MATCH END
+'match_end'

@@ -97,14 +97,12 @@ class Match {
       const allPlayers = [...attackPlayers, ...defensePlayers];
       const whoHeadedBall = getRandomItem(allPlayers);
       const isDfSuccess = whoHeadedBall.team.fullName === teamDefense.fullName;
+      const oddsGkSuccess = randomUpTo(100) < 80;
 
       if (isDfSuccess) {
-        console.log('df_save_corner');
         this.notifyObservers('df_save_corner', teamDefense, whoHeadedBall);
       } else {
-        if (randomUpTo(100) < 80) {
-          console.log('fv_shot_corner');
-          console.log('gk_save_shot');
+        if (oddsGkSuccess) {
           this.notifyObservers('fv_shot_corner', teamAttack, whoHeadedBall);
           this.notifyObservers('gk_save_shot', teamDefense, goalKeeper);
         } else {
@@ -132,6 +130,6 @@ class Match {
 //   const match = new Match(fenerbahce, galatasaray);
 // }
 
-const match = new Match(fenerbahce, galatasaray);
+// const match = new Match(fenerbahce, galatasaray);
 
-console.log(match);
+// console.log(match);
