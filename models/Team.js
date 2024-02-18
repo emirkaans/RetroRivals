@@ -51,8 +51,12 @@ export class Team {
     });
   }
 
+  getGoalKeeper() {
+    return this.players.find(player => player.position === 'KL');
+  }
+
   getFootballers() {
-    return this.players.filter(player => player.position !== 'GK');
+    return this.players.filter(player => player.position !== 'KL');
   }
 
   getOffensivePlayers() {
