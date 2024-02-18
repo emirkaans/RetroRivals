@@ -38,8 +38,8 @@ FOUL
 OFFSIDE
 'offside'
 
-FIRST HALF END
-'first_half_end'
+FINISH FIRST HALF
+'finish_first_half'
 
-MATCH END
-'match_end'
+FINISH MATCH
+'finish_match'
