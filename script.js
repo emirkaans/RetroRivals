@@ -25,6 +25,7 @@ class Match {
     this.teamAway = teamAway;
     this.isMatchOver = false;
     this.observers = [];
+    this.time = 0;
 
     // Set Starting Conditions
 
@@ -33,15 +34,14 @@ class Match {
     this.addObserver(new Stats(teamHome, teamAway));
     this.setStats();
     this.setCommentator();
-    this._startMatch();
   }
 
   addObserver(observer) {
     this.observers.push(observer);
   }
 
-  notifyObservers(event, team, player) {
-    this.observers.forEach(observer => observer.update(event, team, player));
+  notifyObservers(event, team, player, otherTeam) {
+    this.observers.forEach(observer => observer.update(event, team, player, otherTeam));
   }
 
   setStats() {
@@ -56,80 +56,155 @@ class Match {
     this.whoHasBall = team;
   }
 
-  _goal(team, isDirect, player) {
+  foul(teamAttack, teamDefence) {}
+
+  shot(teamAttack, teamDefence) {
+    const shooter = getRandomItem(teamAttack.getOffensivePlayers());
+    const goalKeeper = teamDefence.getGoalKeeper();
+    const playerEffect = (shooter.shot - goalKeeper.bounce) * 3;
+    const goalProb = 20 + playerEffect;
+
+    this.notifyObservers('shot', teamAttack, shooter);
+
+    if (goalProb > randomUpTo(100)) {
+      this.goal(teamAttack, true, shooter);
+    } else {
+      this.notifyObservers('gk_save_shot', teamDefence, goalKeeper);
+    }
+  }
+
+  penalty(teamAttack, teamDefence) {
+    const penaltyTaker = getRandomItem(teamAttack.getOffensivePlayers());
+    const goalKeeper = teamDefence.getGoalKeeper();
+    const takerScore = penaltyTaker.getPenaltyScore();
+    const goalKeeperScore = goalKeeper.getPenaltyScore();
+    const playerEffect = (takerScore - goalKeeperScore) * 3;
+    const goalProb = 65 + playerEffect;
+
+    this.notifyObservers('penalty', teamAttack, penaltyTaker);
+
+    if (goalProb > randomUpTo(100)) {
+      this.goal(teamAttack, true, penaltyTaker);
+    } else {
+      this.notifyObservers('gk_save_penalty', teamDefence, goalKeeper);
+    }
+  }
+
+  freekick(teamAttack, teamDefence) {
+    const freekickTaker = getRandomItem(teamAttack.getOffensivePlayers());
+    const goalKeeper = teamDefence.getGoalKeeper();
+    const takerScore = freekickTaker.getFreekickScore();
+    const goalKeeperScore = goalKeeper.getFreekickScore();
+    const playerEffect = (takerScore - goalKeeperScore) * 3;
+    const goalProb = 18 + playerEffect;
+
+    this.notifyObservers('freekick', teamAttack, freekickTaker);
+
+    if (goalProb > randomUpTo(100)) {
+      this.goal(teamAttack, true, freekickTaker);
+    } else {
+      this.notifyObservers('gk_save_freekick', teamDefence, goalKeeper);
+    }
+  }
+
+  goal(team, isDirect, player) {
     if (isDirect) {
       this.notifyObservers('goal', team, player);
     } else {
       const scorer = player || getRandomItem(team.getOffensivePlayers());
 
       this.notifyObservers('goal', team, scorer);
-
-      // await this._checkOffside(team);
     }
   }
 
-  async _checkOffside(team) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        if (randomUpTo(100) > 85) {
-          console.log('Ancak Hakemin bayrağı havada, ağlara giden top gol değeri kazanmıyor!');
-        } else {
-          team.statistics.score++;
-        }
-        resolve();
-      }, 2000);
-    });
-  }
-
-  fouls(team) {}
-
-  penalty(team) {}
-
-  async _corner(teamAttack, teamDefense) {
+  corner(teamAttack, teamDefence) {
     const attackPlayers = teamAttack.players.filter(player => player.position !== 'KL' && player.height >= 180);
-    const defensePlayers = teamDefense.players.filter(player => player.position !== 'KL' && player.height >= 180);
-    const goalKeeper = teamDefense.players.find(player => player.position === 'KL');
+    const defensePlayers = teamDefence.players.filter(player => player.position !== 'KL' && player.height >= 180);
+    const goalKeeper = teamDefence.getGoalKeeper();
 
-    if (isGkSaveCorner(goalKeeper)) {
-      console.log('gk_save_corner');
-      this.notifyObservers('gk_save_corner', teamDefense, goalKeeper);
+    this.notifyObservers('corner', teamAttack, undefined, teamDefence);
+
+    if (goalKeeper.isSaveCorner()) {
+      this.notifyObservers('gk_save_corner', teamDefence, goalKeeper);
     } else {
       const allPlayers = [...attackPlayers, ...defensePlayers];
       const whoHeadedBall = getRandomItem(allPlayers);
-      const isDfSuccess = whoHeadedBall.team.fullName === teamDefense.fullName;
-      const oddsGkSuccess = randomUpTo(100) < 80;
+      const isDfSave = whoHeadedBall.team.fullName === teamDefence.fullName;
+      const oddsGkSave = randomUpTo(100) < 80;
 
-      if (isDfSuccess) {
-        this.notifyObservers('df_save_corner', teamDefense, whoHeadedBall);
+      if (isDfSave) {
+        this.notifyObservers('df_save_corner', teamDefence, whoHeadedBall);
       } else {
-        if (oddsGkSuccess) {
+        if (oddsGkSave) {
           this.notifyObservers('fv_shot_corner', teamAttack, whoHeadedBall);
-          this.notifyObservers('gk_save_shot', teamDefense, goalKeeper);
+          this.notifyObservers('gk_save_shot', teamDefence, goalKeeper);
         } else {
-          this._goal(teamAttack, true, whoHeadedBall);
+          this.goal(teamAttack, true, whoHeadedBall);
         }
       }
     }
   }
 
-  async _startMatch() {
-    this._goal(this.teamHome, true, getRandomItem(this.teamHome.players));
+  goalCancel(teamAttack, teamDefence) {}
 
-    this._goal(this.teamAway, false, undefined);
+  assist(player) {}
 
-    await this._corner(this.teamAway, this.teamHome);
-
-    // await this._goal(this.teamHome, undefined, undefined);
-
-    // await waitSeconds(3);
+  finishFirstHalf() {
+    this.notifyObservers('first_half_end', this.teamHome, undefined, this.teamAway);
   }
-  _finishMatch() {}
+
+  startSecondHalf() {
+    this.notifyObservers('second_half_start', this.teamHome, undefined, this.teamAway);
+  }
+
+  triggerEvents() {
+    const teamAttack = randomUpTo(100) > 50 ? this.teamHome : this.teamAway;
+    const teamDefence = teamAttack.fullName === this.teamHome.fullName ? this.teamAway : this.teamHome;
+    const events = ['freekick', 'shot', 'corner', 'penalty'];
+    const event = getRandomItem(events);
+
+    if (event === 'freekick') {
+      this.freekick(teamAttack, teamDefence);
+    } else if (event === 'shot') {
+      this.shot(teamAttack, teamDefence);
+    } else if (event === 'corner') {
+      this.corner(teamAttack, teamDefence);
+    } else if (event === 'penalty') {
+      this.penalty(teamAttack, teamDefence);
+    }
+
+    this.time += 10;
+  }
+
+  startMatch() {
+    this.notifyObservers('match_start', this.teamHome, undefined, this.teamAway);
+
+    while (this.time < 45) {
+      this.triggerEvents();
+    }
+
+    this.finishFirstHalf();
+    this.startSecondHalf();
+
+    while (this.time < 90) {
+      this.triggerEvents();
+    }
+
+    this.finishMatch();
+
+    console.log(`Fenerbahçe: ${this.stats[this.teamHome.fullName].team.score} || Galatasaray: ${this.stats[this.teamAway.fullName].team.score}`);
+  }
+  finishMatch() {
+    this.isMatchOver = true;
+    this.notifyObservers('match_end', this.teamHome, undefined, this.teamAway);
+  }
 }
 
 // for (let index = 0; index < 20; index++) {
 //   const match = new Match(fenerbahce, galatasaray);
 // }
 
-// const match = new Match(fenerbahce, galatasaray);
+const match = new Match(fenerbahce, galatasaray);
+match.startMatch();
 
 // console.log(match);
