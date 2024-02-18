@@ -15,4 +15,12 @@ export class Footballer extends Player {
     this.aggression = aggression;
     this.stamina = stamina;
   }
+
+  getPenaltyScore() {
+    return (this.technique + this.finishing + this.shooting) / 3;
+  }
+
+  getFreekickScore() {
+    return (this.technique + this.shooting) / 2;
+  }
 }
