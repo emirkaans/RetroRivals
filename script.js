@@ -1,18 +1,17 @@
 'use strict';
 
-import { getRandomItem, randomUpTo, waitSeconds, getDataFrom, isGkSaveCorner } from './helpers.js';
+import { getRandomItem, randomUpTo, waitSeconds, getDataFrom, getRandomBetween } from './helpers.js';
 import { buildTeam } from './builders/TeamBuilder.js';
 import { Stats } from './models/Stats.js';
 import { Commentator } from './models/Commentator.js';
 
-const fenerbahceData = await getDataFrom('./data/fenerbahce.json');
-const galatasarayData = await getDataFrom('./data/galatasaray.json');
+const fenerbahceData = await getDataFrom('./data/teams/fenerbahce.json');
+const galatasarayData = await getDataFrom('./data/teams/galatasaray.json');
+const besiktasData = await getDataFrom('./data/teams/besiktas.json');
 
 const fenerbahce = buildTeam(fenerbahceData);
 const galatasaray = buildTeam(galatasarayData);
-
-// console.log(fenerbahce);
-// console.log(galatasaray);
+const besiktas = buildTeam(besiktasData);
 
 // DOM Elements
 const commentContainer = document.querySelector('#comment');
@@ -81,7 +80,7 @@ class Match {
     const playerEffect = (takerScore - goalKeeperScore) * 3;
     const goalProb = 65 + playerEffect;
 
-    this.notifyObservers('penalty', teamAttack, penaltyTaker);
+    this.notifyObservers('penalty', teamAttack, penaltyTaker, teamDefence);
 
     if (goalProb > randomUpTo(100)) {
       this.goal(teamAttack, true, penaltyTaker);
@@ -173,7 +172,7 @@ class Match {
       this.penalty(teamAttack, teamDefence);
     }
 
-    this.time += 10;
+    this.time += getRandomBetween(5, 20);
   }
 
   startMatch() {
@@ -186,7 +185,10 @@ class Match {
 
     this.finishFirstHalf();
 
-    console.log(`İlkyarı Sonucu: Fenerbahçe: ${this.stats[this.teamHome.fullName].team.score} || Galatasaray: ${this.stats[this.teamAway.fullName].team.score}`);
+    console.log('=========================');
+    console.log(`İlkyarı Sonucu: ${this.teamHome.fullName}: ${this.stats[this.teamHome.fullName].team.score} || ${this.teamAway.fullName}: ${this.stats[this.teamAway.fullName].team.score}`);
+    console.log('=========================');
+
     this.startSecondHalf();
 
     while (this.time < 90) {
@@ -195,7 +197,9 @@ class Match {
 
     this.finishMatch();
 
-    console.log(`Maç Sonucu: Fenerbahçe: ${this.stats[this.teamHome.fullName].team.score} || Galatasaray: ${this.stats[this.teamAway.fullName].team.score}`);
+    console.log('=========================');
+    console.log(`Maç Sonucu: ${this.teamHome.fullName}: ${this.stats[this.teamHome.fullName].team.score} || ${this.teamAway.fullName}: ${this.stats[this.teamAway.fullName].team.score}`);
+    console.log('=========================');
   }
   finishMatch() {
     this.isMatchOver = true;
@@ -205,9 +209,13 @@ class Match {
 
 // for (let index = 0; index < 20; index++) {
 //   const match = new Match(fenerbahce, galatasaray);
+//   match.startMatch();
 // }
 
-const match = new Match(fenerbahce, galatasaray);
-match.startMatch();
+const match1 = new Match(fenerbahce, galatasaray);
+const match2 = new Match(fenerbahce, besiktas);
+const match3 = new Match(besiktas, galatasaray);
 
-// console.log(match);
+match1.startMatch();
+match2.startMatch();
+match3.startMatch();

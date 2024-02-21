@@ -1,15 +1,18 @@
 'use strict';
 
 import { getRandomItem, getDataFrom } from '../helpers.js';
-// import { comments } from '../data/comments.json';
+const data = await getDataFrom('./data/comments/comments.json');
+const comments = data.data.events;
 
 export class Commentator {
   constructor() {
-    // this.comments = JSON.parse(comments);
+    this.comments = comments;
   }
 
   update(event, team, player, otherTeam) {
-    if (event === 'match_start') {
+    if (event === 'before_match') {
+      this.beforeMatch(team, otherTeam);
+    } else if (event === 'match_start') {
       this.matchStart(team, otherTeam);
     } else if (event === 'first_half_end') {
       this.finishFirstHalf(team, otherTeam);
@@ -42,97 +45,80 @@ export class Commentator {
     }
   }
 
-  getRandomComment(comments, event) {
-    const commentArray = comments.find(comment => comment.event === event);
+  getRandomComment(event) {
+    const commentArray = this.comments.find(comment => comment.event === event).comments;
 
     return getRandomItem(commentArray);
   }
 
-  beforeMatch(teamHome, temAway) {}
+  beforeMatch(teamHome, teamAway) {
+    console.log(this.getRandomComment('before_match').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
+  }
 
   matchStart(teamHome, teamAway) {
-    console.log(`Hepinize büyük derbi akşamından selamlar. ${teamHome.fullName} evinde ${teamAway.fullName} takımını ağırlıyor. Heyecanlı bir mücadele bizleri bekliyor.`);
+    console.log(this.getRandomComment('match_start').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
   }
 
   finishFirstHalf(teamHome, teamAway) {
-    console.log(`Ve ${teamHome.fullName} - ${teamAway.fullName} mücadelesinde ilk yarı sona eriyor. Bakalım ikinci yarıda bizleri neler bekliyor`);
+    console.log(this.getRandomComment('first_half_end').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
   }
 
   startSecondHalf(teamHome, teamAway) {
-    console.log(`Ve hakemin düdüğü ile ikinci yarı başlıyor... ${teamHome.fullName} ve ${teamAway.fullName} takımlarının her ikisi de galibiyeti elde etmeye çalışıyor güzel bir ikinci yarı izleyeceğiz!`);
+    console.log(this.getRandomComment('second_half_start').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
   }
 
-  finishMatch(teamAttack, teamDefence) {
-    console.log(`Ve hakemin son düdüğü ile maç sona eriyor`);
+  finishMatch(teamHome, teamAway) {
+    console.log(this.getRandomComment('match_end').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
   }
 
   shot(teamAttack, footballer) {
-    console.log(`${footballer.fullName} topla ilerliyor, ceza sahasına yaklaştı... Önünü boşalttı... Bir şuuut`);
+    console.log(this.getRandomComment('shot').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
   }
 
   goal(teamAttack, footballer) {
-    console.log(`${footballer.fullName} mükemmel bir gol atıyor. ${teamAttack.fullName} takımının bu sezon parlayan yıldızı!`);
+    console.log(this.getRandomComment('goal').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
   }
 
   corner(teamAttack, teamDefence) {
-    console.log(`${teamAttack.fullName} köşe vuruşunu kullanacak. Seyirciler nefesini tuttu bekliyorlar! ${teamDefence.fullName} savunması yerini aldı`);
+    console.log(this.getRandomComment('corner').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${teamDefence.fullName}', teamDefence.fullName));
   }
 
   gkSaveCorner(teamDefence, goalKeeper) {
-    console.log(`${goalKeeper.fullName} çıktı ve kornerden gelen topu başarı ile kontrol etti. ${teamDefence.fullName} rahat bir nefes alıyor.`);
+    console.log(this.getRandomComment('gk_save_corner').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
   }
 
   gkSaveShot(teamDefence, goalKeeper) {
-    console.log(`${goalKeeper.fullName} müthiş uzandı ve çıkardı topu!`);
+    console.log(this.getRandomComment('gk_save_shot').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
   }
 
   dfSaveCorner(teamDefence, footballer) {
-    console.log(`Orta geldi... Ancak ${teamDefence.fullName} savunması devrede! ${footballer.fullName} başarı ile uzaklaştırdı topu.`);
+    console.log(this.getRandomComment('df_save_corner').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
   }
 
   fvShotCorner(teamAttack, footballer) {
-    console.log(`Orta geldi... ${footballer.fullName} iyi yükseldi...Bir kafa...Ancak...`);
+    console.log(this.getRandomComment('fv_shot_corner').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
   }
 
   freekick(teamAttack, footballer) {
-    console.log(`${teamAttack.fullName} serbest vuruşu kullanacak. ${footballer.fullName} topun başına geldi. Gözler hakemde. Düdük geldi... ${footballer.fullName} geliyoor...`);
+    console.log(this.getRandomComment('freekick').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
   }
 
   gkSaveFreekick(teamDefence, goalKeeper) {
-    console.log(`${goalKeeper.fullName} müthiş uzandı ve çıkarmayı başardı topu! ${teamDefence.fullName} barajının üstünden füze gibi geçen topu müthiş çıkardı ${goalKeeper.fullName}`);
+    console.log(this.getRandomComment('gk_save_freekick').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
   }
 
   penalty(teamAttack, footballer, otherTeam) {
-    console.log(`${footballer.fullName} ceza sahasına sokuldu.. bir çalım... yerde kalıyor gözler hakemde... Evet verdi penaltıyı! ${teamAttack.fullName} oldukça kritik bir penaltı kazanıyor!`);
+    console.log(
+      this.getRandomComment('penalty')
+        .replaceAll('${teamAttack.fullName}', teamAttack.fullName)
+        .replaceAll('${footballer.fullName}', footballer.fullName)
+        .replaceAll('${goalKeeper.fullName}', otherTeam.getGoalKeeper().fullName)
+    );
   }
 
   gkSavePenalty(teamDefence, goalKeeper) {
-    console.log(`${goalKeeper.fullName} uzandı ve kurtarıyooor! Zoru başardı müthiş uzandı ve penaltıyı kurtarıyor... ${teamDefence.fullName} takımını sırtlıyor adeta!`);
+    console.log(this.getRandomComment('gk_save_penalty').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
   }
-
-  // async corner(footballer, goalKeeper, isAttack, isGoal) {
-  //   try {
-  //     const comments = await getDataFrom('./speaker/comments/corner.json');
-  //     const goalKeeperName = (goalKeeper || {}).fullName || '';
-  //     const footballerName = (footballer || {}).fullName || '';
-
-  //     if (!isAttack) {
-  //       if (footballerName === '') {
-  //         return getRandomItem(comments.goalKeeperSucceed).replaceAll('{goalKeeperName}', goalKeeperName);
-  //       } else {
-  //         return getRandomItem(comments.defenseSucceed).replaceAll('{footballerName}', footballerName);
-  //       }
-  //     } else {
-  //       if (isGoal) {
-  //         return getRandomItem(comments.goal).replaceAll('{goalKeeperName}', goalKeeperName).replaceAll('{footballerName}', footballerName);
-  //       } else {
-  //         return getRandomItem(comments.attackFailed).replaceAll('{goalKeeperName}', goalKeeperName).replaceAll('{footballerName}', footballerName);
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
 }
 
 // Commentator corner metodu:
