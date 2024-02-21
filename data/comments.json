@@ -1,0 +1,165 @@
+{
+  "data": {
+    "events": [
+      {
+        "event": "before_start",
+        "comments": [
+          "Hepinize büyük derbi akşamından selamlar. ${teamHome.fullName} evinde ${teamAway.fullName} takımını ağırlıyor. Heyecanlı bir mücadele bizleri bekliyor.",
+          "Merhabalar futbol severler, bugün futbolun kalbi burada atacak. ${teamHome.fullName}, kendi sahasında ${teamAway.fullName} ile karşı karşıya geliyor. Bu müthiş karşılaşmanın startını vermek üzereyiz.",
+          "Ve işte büyük gün geldi çattı! ${teamHome.fullName} ve ${teamAway.fullName}, ligdeki en önemli maçlardan biri için burada. Bu akşamın yıldızları sahada olacak, tüm gözler bu mücadelede.",
+          "Futbolun en büyük rekabetlerinden birine hoş geldiniz! ${teamHome.fullName} evinde, büyük rakibi ${teamAway.fullName} ile karşılaşıyor. Kazanan kim olacak? Tüm cevaplar bu akşam sahada.",
+          "Bu akşam tüm futbol tutkunlarını ekran başına kilitleyecek bir maç var! ${teamHome.fullName}, evinde ${teamAway.fullName} ile kozlarını paylaşacak. Unutulmaz anlar yaşanacak, maçın başlama düdüğüne az kaldı."
+        ]
+      },
+      {
+        "event": "match_start",
+        "comments": [
+          "Ve maç başladı! ${teamHome.fullName} ve ${teamAway.fullName}, bu kritik mücadelede ilk dakikalardan itibaren kıyasıya bir rekabet içindeler. Bakalım bu mücadelenin galibi kim olacak.",
+          "İşte beklenen an geldi, başlama düdüğü çaldı ve top ${teamHome.fullName} ile ${teamAway.fullName} arasında hızla dolaşmaya başladı. Her iki takım da galibiyet için sahada!",
+          "Maçın başlama düdüğüyle birlikte, ${teamHome.fullName} hemen atak bir başlangıç yaptı. ${teamAway.fullName} ise bu baskıya karşı koymanın yollarını arıyor. Futbol şöleni başladı!",
+          "Ve maç başladı! ${teamHome.fullName} kendi evinde, ${teamAway.fullName} karşısında puan ya da puanlar arayışında. İlk dakikalardan itibaren her iki takım da oldukça dikkatli.",
+          "Başlama düdüğüyle birlikte tüm gözler sahada! ${teamHome.fullName} ve ${teamAway.fullName}, ligdeki yerlerini sağlamlaştırmak için kıyasıya bir mücadeleye giriştiler. Bu maç, sezonun seyrini değiştirebilir."
+        ]
+      },
+      {
+        "event": "first_half_end",
+        "comments": [
+          "İlk yarının son düdüğüyle birlikte, oyuncular nefes nefese soyunma odasının yolunu tutuyor. Şimdiye kadar sahada harika bir mücadele gördük ve ikinci yarıda neler olacağını merakla bekliyoruz.",
+          "Ve ilk yarı tamamlandı! Sahada kıyasıya bir rekabet ve müthiş bir futbol şöleni var. Her iki takım da kendini gösterdi, ama henüz hiçbir şey kesin değil. İkinci yarıda neler bekliyoruz, bakalım göreceğiz.",
+          "İlk yarı sona erdi ve şimdi herkes bir sonraki adımları düşünüyor. ${teamHome.fullName} ve ${teamAway.fullName}, bu yarıda taktiklerini nasıl ayarlayacaklar? İkinci yarı, bu sorunun cevabını verecek.",
+          "Birinci yarı sona ererken, oyuncuların yüzlerindeki ifadeler çok şey anlatıyor. Bu yarıda her iki takım da sahada ne kadar iddialı olduklarını gösterdi. İkinci yarıda bu çekişmenin daha da artmasını bekleyebiliriz.",
+          "İlk yarıdaki mücadele sona erdi ve şimdi tüm gözler teknik direktörlerin üzerinde. Onların vereceği kararlar ve yapacakları değişiklikler, bu maçın kaderini belirleyebilir. İkinci yarıda bizi neler bekliyor, hep birlikte göreceğiz."
+        ]
+      },
+      {
+        "event": "second_half_start",
+        "comments": [
+          "Ve ikinci yarıya başlıyoruz! İlk yarıda her iki takım da sahada büyük bir mücadele sergiledi. Şimdi gözler ikinci yarıda; acaba bu mücadele nasıl şekillenecek?",
+          "İkinci yarının düdüğü çalıyor ve oyuncular yeniden enerjiyle sahada. İlk yarıdaki taktiksel oyunun ardından, takımların bu yarıda nasıl bir strateji izleyeceğini merakla bekliyoruz.",
+          "Maçın bu ikinci yarısında neler olacak, hep birlikte göreceğiz. İlk yarıda gösterdikleri performansla taraftarlarını heyecanlandıran ${teamHome.fullName} ve ${teamAway.fullName}, acaba bu yarıda nasıl bir oyun ortaya koyacak?",
+          "Ve işte ikinci yarı başlıyor! İlk yarıdaki dengeli oyunun ardından, her iki takım da bu yarıda üstünlüğü ele geçirmek için ne yapacak? Sahada stratejilerin çarpıştığına tanık olacağız.",
+          "Top merkezde ve ikinci yarıya başlıyoruz. İlk yarıda sahada kıyasıya bir rekabet vardı. ${teamHome.fullName} ve ${teamAway.fullName}, bu yarıda taraftarlarına daha fazla heyecan yaşatabilecek mi, zaman gösterecek."
+        ]
+      },
+      {
+        "event": "match_end",
+        "comments": [
+          "Ve maç sona erdi! Bugün sahada gerçekten nefes kesen bir mücadele gördük. Her iki takım da sahadaki varlığını hissettirdi ve futbolun güzelliklerini bir kez daha sergiledi.",
+          "Maçın son düdüğü çalıyor ve oyuncular yorgunluk içinde sahadan ayrılıyor. Bu mücadelede, futbolun ne kadar tahmin edilemez ve heyecanlı olduğunu bir kez daha görmüş olduk.",
+          "Ve işte maç bitti! ${teamHome.fullName} ve ${teamAway.fullName} arasındaki bu kıyasıya rekabet, futbolseverlere unutulmaz anlar yaşattı. Her iki takım da tebrikleri hak ediyor.",
+          "Maç sona erdi ve taraftarlar takımlarını alkışlarla selamlıyor. Bugün sahada her iki takım da kazanmak için her şeyini ortaya koydu. Futbolun kazananı yine dostluk oldu.",
+          "Ve maçın son düdüğü çalıyor. ${teamHome.fullName} ve ${teamAway.fullName}, bugün sahada müthiş bir mücadele sergiledi. Maç boyunca yaşanan çekişme, futbolun ruhunu bir kez daha canlandırdı."
+        ]
+      },
+      {
+        "event": "goal",
+        "comments": [
+          "${footballer.fullName} mükemmel bir gol atıyor. ${teamAttack.fullName} takımının bu sezon parlayan yıldızı!",
+          "${footballer.fullName}, ağları havalandırıyor! Bu golle birlikte ${teamAttack.fullName}, tribünlerde büyük bir coşku yaratıyor. Ne müthiş bir an!",
+          "Ve işte, ${footballer.fullName} sahneye çıkıyor ve harika bir vuruşla topu filelerle buluşturuyor. ${teamAttack.fullName} için bu sezonun vazgeçilmezi!",
+          "${footballer.fullName} adeta bir sanat eseri yaratıyor ve topu köşeden ağlara gönderiyor. ${teamAttack.fullName} adına bu sezonun en parlak anlarından biri daha!",
+          "${footballer.fullName}, kaleciyle karşı karşıya kaldığı bu kritik anda soğukkanlılığını koruyor ve muhteşem bir gol atıyor. ${teamAttack.fullName} takımının bu sezonki en değerli oyuncularından biri olmaya devam ediyor!"
+        ]
+      },
+      {
+        "event": "shot",
+        "comments": [
+          "${footballer.fullName} topla ilerliyor, ceza sahasına yaklaştı... Önünü boşalttı... Bir şuuut",
+          "${footballer.fullName}, rakiplerini ardında bırakıyor ve kaleyi gözüne kestirdi... Ve işte, muazzam bir şut!",
+          "Top ${footballer.fullName}'in ayağında, hızla ilerliyor... An itibariyle şut pozisyonunda! Ve vurduu...",
+          "${footballer.fullName}, kritik bir anda topu kazandı... Ceza sahasının dışından deneyebilir şansını! Şut geliyor...",
+          "İşte ${footballer.fullName}, maçın kaderini değiştirebilir mi? Ceza sahasına doğru ilerliyor ve... şutunu çekiyor!"
+        ]
+      },
+      {
+        "event": "corner",
+        "comments": [
+          "Vee ${teamAttack.fullName} köşe vuruşunu kullanacak. Seyirciler nefesini tuttu bekliyorlar! ${teamDefence.fullName} savunması yerini aldı.",
+          "${teamAttack.fullName} için bir korner fırsatı daha. Bu kritik anda, tüm gözler korner bayrağının üzerinde. ${teamDefence.fullName} tüm hatlarıyla savunmada.",
+          "Korner için top ${teamAttack.fullName}'in en güvenilir ayaklarında. İşte, tribünlerin coşkusu dorukta! ${teamDefence.fullName}, bu tehlikeyi savuşturabilecek mi?",
+          "Bu korner, ${teamAttack.fullName} için altın değerinde bir fırsat. Oyuncular, bu önemli anda pozisyonlarını alıyor. ${teamDefence.fullName} ise savunma için hazır."
+        ]
+      },
+      {
+        "event": "gk_save_corner",
+        "comments": [
+          "${goalKeeper.fullName} çıktı ve kornerden gelen topu başarı ile kontrol etti. ${teamDefence.fullName} rahat bir nefes alıyor.",
+          "Kornerden gelen topa yükselen tek isim var: ${goalKeeper.fullName}! Emin ellerle topu kontrol ediyor ve takımını rahatlatıyor.",
+          "Ve işte, ${goalKeeper.fullName}, kornerden gelen tehlikeyi büyük bir ustalıkla savuşturdu. ${teamDefence.fullName} için kritik bir anı güvenle atlattı.",
+          "${goalKeeper.fullName}, kornerden gelen topu havada güvenle yakalıyor. Bu kurtarış, ${teamDefence.fullName}'in moralini yükseltiyor.",
+          "Kornerden gelen topa ${goalKeeper.fullName} adeta bir kartal gibi dalıyor ve topu kavradı! ${teamDefence.fullName}, kalecisinin bu kritik müdahalesiyle rahat bir nefes alıyor."
+        ]
+      },
+      {
+        "event": "gk_save_shot",
+        "comments": [
+          "${goalKeeper.fullName} müthiş uzandı ve çıkardı topu! Olağanüstü bir refleksle, takımını tehlikeden korudu.",
+          "İşte kalecilik sanatı! ${goalKeeper.fullName}, gelen şutu kurtararak göz doldurdu. Takımının kalesini gole kapattı.",
+          "Ve ${goalKeeper.fullName}, şutun adresini değiştiriyor! Uzanan elleriyle topu güvenli bölgeye yönlendiriyor.",
+          "Bu ne kurtarış ${goalKeeper.fullName}! Gelen sert şutu son anda parmaklarının ucuyla uzaklaştırıyor.",
+          "${goalKeeper.fullName}, kalede devleşti! Gelen şutu başarıyla kurtararak, takımına moral kazandırıyor."
+        ]
+      },
+      {
+        "event": "df_save_corner",
+        "comments": [
+          "Orta geldi... Ancak ${teamDefence.fullName} savunması devrede! ${footballer.fullName} başarı ile uzaklaştırdı topu.",
+          "Kornerden gelen tehlikeyi ${teamDefence.fullName} savunması hemen bertaraf ediyor. ${footballer.fullName}, yükselip topu güvenli bir şekilde uzaklaştırıyor.",
+          "Ve korner kullanıldı, ama ${teamDefence.fullName} savunmasının duvarı sarsılmıyor. ${footballer.fullName}, kritik bir müdahaleyle topu ceza sahası dışına gönderiyor.",
+          "${teamDefence.fullName} savunması, kornerden gelen topa izin vermiyor. ${footballer.fullName}, mükemmel bir zamanlamayla topu uzaklaştırdı.",
+          "Bu korner, ${teamDefence.fullName} için tehlike yaratamadı, çünkü ${footballer.fullName} oradaydı. Kritik bir müdahale ile topu uzaklaştırmayı başarıyor."
+        ]
+      },
+      {
+        "event": "fv_shot_corner",
+        "comments": [
+          "Orta geldi... ${footballer.fullName} iyi yükseldi...Bir kafa",
+          "Köşe vuruşundan gelen topa ${footballer.fullName}, mükemmel yükseldi!!!",
+          "İşte kornerden gelen fırsat! ${footballer.fullName} kalabalığın içinden sıyrıldı!!!",
+          "Köşevuruşu kullanıldı... ${footballer.fullName} vurdu kafayı!!!",
+          "Ve korner kullanılıyor, ${footballer.fullName} önünde buldu topu.. Bir vuruş!!!"
+        ]
+      },
+      {
+        "event": "freekick",
+        "comments": [
+          "${teamAttack.fullName} serbest vuruşu kullanacak. ${footballer.fullName} topun başına geldi. Gözler hakemde. Düdük geldi... ${footballer.fullName} geliyoor...",
+          "Serbest vuruş fırsatı ${teamAttack.fullName} için büyük bir şans. ${footballer.fullName}, bu kritik anda topun başında. Stadyum nefesini tuttu, işte vuruş!",
+          "Bu, golle sonuçlanabilecek mükemmel bir serbest vuruş pozisyonu. ${footballer.fullName}, maçın kaderini değiştirebilir. Topa yaklaşıyor ve... vuruşunu yapıyor!",
+          "${teamAttack.fullName} adına serbest vuruş zamanı. ${footballer.fullName}, bu önemli anda sahneye çıkıyor. Topa odaklandı, vuruş anı geldi, tüm gözler onda!",
+          "Ve serbest vuruş için ${footballer.fullName} hazır. ${teamAttack.fullName}, bu fırsatı değerlendirebilecek mi? Top hareket ediyor, ${footballer.fullName} vurdu!"
+        ]
+      },
+      {
+        "event": "gk_save_freekick",
+        "comments": [
+          "${goalKeeper.fullName} müthiş uzandı ve çıkarmayı başardı topu! ${teamDefence.fullName} barajının üstünden füze gibi geçen topu müthiş çıkardı ${goalKeeper.fullName}",
+          "Serbest vuruştan gelen top, kaleye doğru inanılmaz bir hızla ilerliyordu, ama ${goalKeeper.fullName} orada! Uzanan elleriyle topu kurtarıyor ve takımını sevince boğuyor.",
+          "Ve ${goalKeeper.fullName}, serbest vuruştan gelen bu tehlikeli topu kurtararak gösterişli bir hareket yapıyor! ${teamDefence.fullName} için hayati bir an.",
+          "Bu serbest vuruş, kaleye doğru adeta bir roket gibi gidiyordu, ancak ${goalKeeper.fullName} inanılmaz bir refleksle topu uzaklaştırdı. ${teamDefence.fullName}, kalecisinin bu kritik müdahalesiyle rahat bir nefes alıyor.",
+          "Serbest vuruştan gelen top, golle sonuçlanacak gibi görünüyordu, ama ${goalKeeper.fullName} harika bir kurtarışla buna izin vermiyor! ${teamDefence.fullName} takımı, kalecisinin bu olağanüstü performansıyla bir kez daha kurtuluyor."
+        ]
+      },
+      {
+        "event": "penalty",
+        "comments": [
+          "${footballer.fullName}, penaltı noktasında yerini alırken, ${goalKeeper.fullName} da kale çizgisinde pozisyonunu alıyor. İki oyuncu arasındaki psikolojik mücadele başlamış durumda. Stadyumda gerilim dorukta, herkes düdüğün çalmasını bekliyor...",
+          "Bu kritik penaltı anında, ${footballer.fullName} ve ${goalKeeper.fullName}, göz göze geliyor. Futbolcu, topun başında kararlı; kaleci ise kalesini korumaya hazır. Hakem, bu büyük düelloyu başlatmak üzere düdüğüne yaklaşıyor...",
+          "Ve sahne hazır: ${footballer.fullName}, penaltı için topun başında. Karşısında ise ${goalKeeper.fullName}, kalesinde adeta bir duvar gibi duruyor. Bu an, maçın akışını değiştirebilir. Tüm gözler, hakemin üzerinde...",
+          "Penaltı vuruşu öncesi, ${footballer.fullName} topa odaklanmış durumda, ancak ${goalKeeper.fullName} da kaledeki yerini alarak futbolcuya meydan okuyor. Bu, sadece güç ve yetenek değil, aynı zamanda zeka oyunu da olacak. Hakem, düdüğü çalmaya hazırlanıyor...",
+          "${footballer.fullName}, bu önemli penaltıda topun başında beklerken, ${goalKeeper.fullName}, kaledeki hareketleriyle futbolcunun konsantrasyonunu bozmaya çalışıyor. İki oyuncu arasındaki bu kritik karşılaşma, maçın sonucunu belirleyebilir. Ve işte, düdük sesi geliyor..."
+        ]
+      },
+      {
+        "event": "gk_save_penalty",
+        "comments": [
+          "${goalKeeper.fullName} uzandı ve kurtarıyooor! Zoru başardı müthiş uzandı ve penaltıyı kurtarıyor... ${teamDefence.fullName} takımını sırtlıyor adeta!",
+          "Ve ${goalKeeper.fullName}, penaltı anında kahramanlaşıyor! Sağa doğru muhteşem bir dalışla topu dışarı itiyor. ${teamDefence.fullName} için bu, maçın dönüm noktası olabilir.",
+          "İşte o an! ${goalKeeper.fullName}, penaltıyı kurtarmak için her şeyini ortaya koyuyor ve başarıyor! Kale çizgisinde adeta bir duvar örüyor ve ${teamDefence.fullName} takımına nefes aldırıyor.",
+          "${goalKeeper.fullName}, penaltı vuruşunda inanılmaz bir refleks gösteriyor ve topu kurtarıyor! Bu, sadece bir kurtarış değil, aynı zamanda ${teamDefence.fullName} için moral bir zafer.",
+          "Penaltı vuruşunda ${goalKeeper.fullName}, tüm gözleri üzerine çekiyor ve harika bir kurtarışla topu uzaklaştırıyor. ${teamDefence.fullName} takımı, kalecisinin bu olağanüstü performansıyla bir kez daha ayakta."
+        ]
+      }
+    ]
+  }
+}

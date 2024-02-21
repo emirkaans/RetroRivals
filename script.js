@@ -11,8 +11,8 @@ const galatasarayData = await getDataFrom('./data/galatasaray.json');
 const fenerbahce = buildTeam(fenerbahceData);
 const galatasaray = buildTeam(galatasarayData);
 
-console.log(fenerbahce);
-console.log(galatasaray);
+// console.log(fenerbahce);
+// console.log(galatasaray);
 
 // DOM Elements
 const commentContainer = document.querySelector('#comment');
@@ -177,6 +177,7 @@ class Match {
   }
 
   startMatch() {
+    this.notifyObservers('before_start', this.teamHome, undefined, this.teamAway);
     this.notifyObservers('match_start', this.teamHome, undefined, this.teamAway);
 
     while (this.time < 45) {
@@ -184,6 +185,8 @@ class Match {
     }
 
     this.finishFirstHalf();
+
+    console.log(`İlkyarı Sonucu: Fenerbahçe: ${this.stats[this.teamHome.fullName].team.score} || Galatasaray: ${this.stats[this.teamAway.fullName].team.score}`);
     this.startSecondHalf();
 
     while (this.time < 90) {
@@ -192,7 +195,7 @@ class Match {
 
     this.finishMatch();
 
-    console.log(`Fenerbahçe: ${this.stats[this.teamHome.fullName].team.score} || Galatasaray: ${this.stats[this.teamAway.fullName].team.score}`);
+    console.log(`Maç Sonucu: Fenerbahçe: ${this.stats[this.teamHome.fullName].team.score} || Galatasaray: ${this.stats[this.teamAway.fullName].team.score}`);
   }
   finishMatch() {
     this.isMatchOver = true;

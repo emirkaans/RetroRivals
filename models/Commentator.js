@@ -1,9 +1,12 @@
 'use strict';
 
 import { getRandomItem, getDataFrom } from '../helpers.js';
+// import { comments } from '../data/comments.json';
 
 export class Commentator {
-  constructor() {}
+  constructor() {
+    // this.comments = JSON.parse(comments);
+  }
 
   update(event, team, player, otherTeam) {
     if (event === 'match_start') {
@@ -33,15 +36,24 @@ export class Commentator {
     } else if (event === 'gk_save_freekick') {
       this.gkSaveFreekick(team, player);
     } else if (event === 'penalty') {
-      this.penalty(team, player);
+      this.penalty(team, player, otherTeam);
     } else if (event === 'gk_save_penalty') {
       this.gkSavePenalty(team, player);
     }
   }
 
+  getRandomComment(comments, event) {
+    const commentArray = comments.find(comment => comment.event === event);
+
+    return getRandomItem(commentArray);
+  }
+
+  beforeMatch(teamHome, temAway) {}
+
   matchStart(teamHome, teamAway) {
     console.log(`Hepinize büyük derbi akşamından selamlar. ${teamHome.fullName} evinde ${teamAway.fullName} takımını ağırlıyor. Heyecanlı bir mücadele bizleri bekliyor.`);
   }
+
   finishFirstHalf(teamHome, teamAway) {
     console.log(`Ve ${teamHome.fullName} - ${teamAway.fullName} mücadelesinde ilk yarı sona eriyor. Bakalım ikinci yarıda bizleri neler bekliyor`);
   }
@@ -58,8 +70,8 @@ export class Commentator {
     console.log(`${footballer.fullName} topla ilerliyor, ceza sahasına yaklaştı... Önünü boşalttı... Bir şuuut`);
   }
 
-  goal(teamAttack, player) {
-    console.log(`${player.fullName} mükemmel bir gol atıyor. ${teamAttack.fullName} takımının bu sezon parlayan yıldızı!`);
+  goal(teamAttack, footballer) {
+    console.log(`${footballer.fullName} mükemmel bir gol atıyor. ${teamAttack.fullName} takımının bu sezon parlayan yıldızı!`);
   }
 
   corner(teamAttack, teamDefence) {
@@ -90,7 +102,7 @@ export class Commentator {
     console.log(`${goalKeeper.fullName} müthiş uzandı ve çıkarmayı başardı topu! ${teamDefence.fullName} barajının üstünden füze gibi geçen topu müthiş çıkardı ${goalKeeper.fullName}`);
   }
 
-  penalty(teamAttack, footballer) {
+  penalty(teamAttack, footballer, otherTeam) {
     console.log(`${footballer.fullName} ceza sahasına sokuldu.. bir çalım... yerde kalıyor gözler hakemde... Evet verdi penaltıyı! ${teamAttack.fullName} oldukça kritik bir penaltı kazanıyor!`);
   }
 
