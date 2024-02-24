@@ -24,6 +24,7 @@ class Match {
     this.teamAway = teamAway;
     this.isMatchOver = false;
     this.observers = [];
+    this.timesArray = [];
     this.time = 0;
 
     // Set Starting Conditions
@@ -156,7 +157,11 @@ class Match {
     this.notifyObservers('second_half_start', this.teamHome, undefined, this.teamAway);
   }
 
-  triggerEvents() {
+  renderTime(time) {
+    document.querySelector('#time').textContent = time;
+  }
+
+  async triggerEvents() {
     const teamAttack = randomUpTo(100) > 50 ? this.teamHome : this.teamAway;
     const teamDefence = teamAttack.fullName === this.teamHome.fullName ? this.teamAway : this.teamHome;
     const events = ['freekick', 'shot', 'corner', 'penalty'];
@@ -172,15 +177,16 @@ class Match {
       this.penalty(teamAttack, teamDefence);
     }
 
-    this.time += getRandomBetween(5, 20);
+    await waitSeconds(5);
+    this.time += getRandomBetween(5, 8);
   }
 
-  startMatch() {
+  async startMatch() {
     this.notifyObservers('before_start', this.teamHome, undefined, this.teamAway);
     this.notifyObservers('match_start', this.teamHome, undefined, this.teamAway);
 
     while (this.time < 45) {
-      this.triggerEvents();
+      await this.triggerEvents();
     }
 
     this.finishFirstHalf();
@@ -192,7 +198,7 @@ class Match {
     this.startSecondHalf();
 
     while (this.time < 90) {
-      this.triggerEvents();
+      await this.triggerEvents();
     }
 
     this.finishMatch();
@@ -213,9 +219,9 @@ class Match {
 // }
 
 const match1 = new Match(fenerbahce, galatasaray);
-const match2 = new Match(fenerbahce, besiktas);
-const match3 = new Match(besiktas, galatasaray);
+// const match2 = new Match(fenerbahce, besiktas);
+// const match3 = new Match(besiktas, galatasaray);
 
-match1.startMatch();
-match2.startMatch();
-match3.startMatch();
+// await match1.startMatch();
+// match2.startMatch();
+// match3.startMatch();

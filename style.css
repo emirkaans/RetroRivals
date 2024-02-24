@@ -9,14 +9,26 @@ body {
 
 .container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 50vh;
+  padding: 0.5em;
 }
 
-#comment {
-  display: flex;
+#time {
+  margin: 2em;
+  padding: 1em;
   align-items: center;
   justify-content: center;
   background-color: wheat;
+  font-size: 20px;
+}
+
+#comments {
+  padding: 1em;
+  align-items: center;
+  justify-content: center;
+  background-color: wheat;
+  font-size: 20px;
 }

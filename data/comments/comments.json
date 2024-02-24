@@ -16,7 +16,7 @@
         "comments": [
           "Ve maç başladı! ${teamHome.fullName} ve ${teamAway.fullName}, bu kritik mücadelede ilk dakikalardan itibaren kıyasıya bir rekabet içindeler. Bakalım bu mücadelenin galibi kim olacak.",
           "İşte beklenen an geldi, başlama düdüğü çaldı ve top ${teamHome.fullName} ile ${teamAway.fullName} arasında hızla dolaşmaya başladı. Her iki takım da galibiyet için sahada!",
-          "Maçın başlama düdüğüyle birlikte, ${teamHome.fullName} hemen atak bir başlangıç yaptı. ${teamAway.fullName} ise bu baskıya karşı koymanın yollarını arıyor. Futbol şöleni başladı!",
+          "Maçın başlama düdüğüyle birlikte, ${teamHome.fullName} ofansif bir başlangıç yaptı. ${teamAway.fullName} ise bu baskıya karşı koymanın yollarını arıyor. Futbol şöleni başladı!",
           "Ve maç başladı! ${teamHome.fullName} kendi evinde, ${teamAway.fullName} karşısında puan ya da puanlar arayışında. İlk dakikalardan itibaren her iki takım da oldukça dikkatli.",
           "Başlama düdüğüyle birlikte tüm gözler sahada! ${teamHome.fullName} ve ${teamAway.fullName}, ligdeki yerlerini sağlamlaştırmak için kıyasıya bir mücadeleye giriştiler. Bu maç, sezonun seyrini değiştirebilir."
         ]
@@ -58,17 +58,17 @@
           "${footballer.fullName}, ağları havalandırıyor! Bu golle birlikte ${teamAttack.fullName}, tribünlerde büyük bir coşku yaratıyor. Ne müthiş bir an!",
           "Ve işte, ${footballer.fullName} sahneye çıkıyor ve harika bir vuruşla topu filelerle buluşturuyor. ${teamAttack.fullName} için bu sezonun vazgeçilmezi!",
           "${footballer.fullName} adeta bir sanat eseri yaratıyor ve topu köşeden ağlara gönderiyor. ${teamAttack.fullName} adına bu sezonun en parlak anlarından biri daha!",
-          "${footballer.fullName}, kaleciyle karşı karşıya kaldığı bu kritik anda soğukkanlılığını koruyor ve muhteşem bir gol atıyor. ${teamAttack.fullName} takımının bu sezonki en değerli oyuncularından biri olmaya devam ediyor!"
+          "${footballer.fullName}, kaleciyle karşı karşıya kaldığı bu kritik anda soğukkanlılığını koruyor ve muhteşem bir gol atıyor. Hiç şüphesiz ki ${teamAttack.fullName} takımının bu sezonki en değerli oyuncularından biri!"
         ]
       },
       {
         "event": "shot",
         "comments": [
           "${footballer.fullName} topla ilerliyor, ceza sahasına yaklaştı... Önünü boşalttı... Bir şuuut",
-          "${footballer.fullName}, rakiplerini ardında bırakıyor ve kaleyi gözüne kestirdi... Ve işte, muazzam bir şut!",
+          "${footballer.fullName}, rakiplerini ardında bırakıyor ve kaleyi gördü... Yaptı vuruşunu!!!",
           "Top ${footballer.fullName}'in ayağında, hızla ilerliyor... An itibariyle şut pozisyonunda! Ve vurduu...",
           "${footballer.fullName}, kritik bir anda topu kazandı... Ceza sahasının dışından deneyebilir şansını! Şut geliyor...",
-          "İşte ${footballer.fullName}, maçın kaderini değiştirebilir mi? Ceza sahasına doğru ilerliyor ve... şutunu çekiyor!"
+          "İşte ${footballer.fullName}, maçın kaderini değiştirebilir mi? Rakiplerini bir bir eksiltti. Bir çalım daha.... Ceza sahasına doğru ilerliyor. Bir şuuut..."
         ]
       },
       {
@@ -76,7 +76,7 @@
         "comments": [
           "Vee ${teamAttack.fullName} köşe vuruşunu kullanacak. Seyirciler nefesini tuttu bekliyorlar! ${teamDefence.fullName} savunması yerini aldı.",
           "${teamAttack.fullName} için bir korner fırsatı daha. Bu kritik anda, tüm gözler korner bayrağının üzerinde. ${teamDefence.fullName} tüm hatlarıyla savunmada.",
-          "Korner için top ${teamAttack.fullName}'in en güvenilir ayaklarında. İşte, tribünlerin coşkusu dorukta! ${teamDefence.fullName}, bu tehlikeyi savuşturabilecek mi?",
+          "Korner için top ${teamAttack.fullName} takımının en güvenilir ayaklarında. İşte, tribünlerin coşkusu dorukta! ${teamDefence.fullName}, bu tehlikeyi savuşturabilecek mi?",
           "Bu korner, ${teamAttack.fullName} için altın değerinde bir fırsat. Oyuncular, bu önemli anda pozisyonlarını alıyor. ${teamDefence.fullName} ise savunma için hazır."
         ]
       },

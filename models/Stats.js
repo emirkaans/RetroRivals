@@ -8,9 +8,13 @@ export class Stats {
 
   update(event, team, player) {
     if (event === 'goal') {
-      this._goal(team, player);
+      this.goal(team, player);
+    } else if (event === 'shot' || event === 'fv_shot_corner' || event === 'freekick' || event === 'penalty') {
+      this.shot(team, player);
     } else if (event === 'corner') {
-      this._corner(team);
+      this.corner(team);
+    } else if (event === 'gk_save_shot' || event === 'gk_save_corner' || event === 'gk_save_freekick' || event === 'gk_save_penalty') {
+      this.gkSaveShot(team, player);
     }
   }
 
@@ -20,7 +24,6 @@ export class Stats {
         team: {
           score: 0,
           shots: 0,
-          shotsOnTarget: 0,
           possesion: 0 / 100,
           offsides: 0,
           corners: 0,
@@ -42,7 +45,6 @@ export class Stats {
               goals: 0,
               assists: 0,
               shots: 0,
-              shotsOnTarget: 0,
               fouls: 0,
               yellowCard: 0,
               redCard: 0,
@@ -61,21 +63,33 @@ export class Stats {
     return this[team.fullName];
   }
 
-  _goal(team, player) {
+  goal(team, player) {
     const currentTeam = this.findTeam(team);
     const currentPlayer = this.findPlayer(player, currentTeam.players);
 
     currentTeam.team.score++;
     currentTeam.team.shots++;
-    currentTeam.team.shotsOnTarget++;
     currentPlayer.goals++;
     currentPlayer.shots++;
-    currentPlayer.shotsOnTarget++;
   }
 
-  _corner(team) {
+  shot(team, player) {
+    const currentTeam = this.findTeam(team);
+    const currentPlayer = this.findPlayer(player, currentTeam.players);
+
+    currentTeam.team.shots++;
+    currentPlayer.shots++;
+  }
+
+  corner(team) {
     const currentTeam = this.findTeam(team);
 
-    currentTeam.team.corner++;
+    currentTeam.team.corners++;
+  }
+
+  gkSaveShot(team, player) {
+    const currentPlayer = this.findPlayer(player, this.findTeam(team).players);
+
+    currentPlayer.saves++;
   }
 }
