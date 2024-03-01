@@ -4,6 +4,7 @@ import { getRandomItem, randomUpTo, waitSeconds, getDataFrom, getRandomBetween }
 import { buildTeam } from './builders/TeamBuilder.js';
 import { Stats } from './models/Stats.js';
 import { Commentator } from './models/Commentator.js';
+import { TimeTacker } from './models/TimeTracker.js';
 
 const fenerbahceData = await getDataFrom('./data/teams/fenerbahce.json');
 const galatasarayData = await getDataFrom('./data/teams/galatasaray.json');
@@ -32,6 +33,7 @@ class Match {
     this._setWhoHasBall(teamHome);
     this.addObserver(new Commentator());
     this.addObserver(new Stats(teamHome, teamAway));
+    this.addObserver(new TimeTacker());
     this.setStats();
     this.setCommentator();
   }
@@ -40,8 +42,8 @@ class Match {
     this.observers.push(observer);
   }
 
-  notifyObservers(event, team, player, otherTeam) {
-    this.observers.forEach(observer => observer.update(event, team, player, otherTeam));
+  notifyObservers(event, team, player, otherTeam, time = this.time) {
+    this.observers.forEach(observer => observer.update(event, team, player, otherTeam, time));
   }
 
   setStats() {
@@ -145,10 +147,6 @@ class Match {
     }
   }
 
-  goalCancel(teamAttack, teamDefence) {}
-
-  assist(player) {}
-
   finishFirstHalf() {
     this.notifyObservers('first_half_end', this.teamHome, undefined, this.teamAway);
   }
@@ -177,16 +175,15 @@ class Match {
       this.penalty(teamAttack, teamDefence);
     }
 
-    await waitSeconds(5);
     this.time += getRandomBetween(5, 8);
   }
 
-  async startMatch() {
+  startMatch() {
     this.notifyObservers('before_start', this.teamHome, undefined, this.teamAway);
     this.notifyObservers('match_start', this.teamHome, undefined, this.teamAway);
 
     while (this.time < 45) {
-      await this.triggerEvents();
+      this.triggerEvents();
     }
 
     this.finishFirstHalf();
@@ -198,7 +195,7 @@ class Match {
     this.startSecondHalf();
 
     while (this.time < 90) {
-      await this.triggerEvents();
+      this.triggerEvents();
     }
 
     this.finishMatch();
@@ -222,6 +219,7 @@ const match1 = new Match(fenerbahce, galatasaray);
 // const match2 = new Match(fenerbahce, besiktas);
 // const match3 = new Match(besiktas, galatasaray);
 
-// await match1.startMatch();
+match1.startMatch();
+console.log(match1);
 // match2.startMatch();
 // match3.startMatch();

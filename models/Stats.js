@@ -2,13 +2,12 @@
 
 export class Stats {
   constructor(teamHome, teamAway) {
-    this.time = 0;
     this._setTeamsStatistics([teamHome, teamAway]);
   }
 
-  update(event, team, player) {
+  update(event, team, player, otherTeam, time) {
     if (event === 'goal') {
-      this.goal(team, player);
+      this.goal(team, player, time);
     } else if (event === 'shot' || event === 'fv_shot_corner' || event === 'freekick' || event === 'penalty') {
       this.shot(team, player);
     } else if (event === 'corner') {
@@ -30,6 +29,7 @@ export class Stats {
           fouls: 0,
           yellowCard: 0,
           redCard: 0,
+          goalTimes: [],
         },
         players: team.players.map(player => {
           if (player.position === 'KL') {
@@ -63,12 +63,13 @@ export class Stats {
     return this[team.fullName];
   }
 
-  goal(team, player) {
+  goal(team, player, time) {
     const currentTeam = this.findTeam(team);
     const currentPlayer = this.findPlayer(player, currentTeam.players);
 
     currentTeam.team.score++;
     currentTeam.team.shots++;
+    currentTeam.team.goalTimes.push(time);
     currentPlayer.goals++;
     currentPlayer.shots++;
   }
