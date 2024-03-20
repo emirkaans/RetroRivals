@@ -1,13 +1,18 @@
 'use strict';
 
+import { waitSeconds } from '../helpers.js';
+import { Renderer } from './Renderer.js';
+
 export class CommentRenderer extends Renderer {
+  constructor(element) {
+    super(element);
+  }
+
   async render(commentsArray) {
-    if (!this.element) return;
+    for (const item of commentsArray) {
+      this.element.innerText = item;
 
-    for (let comment of commentsArray) {
-      document.querySelector('#comments').textContent = comment;
-
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await waitSeconds(5);
     }
   }
 }
