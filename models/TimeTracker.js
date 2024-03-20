@@ -7,6 +7,6 @@ export class TimeTacker {
 
   update(event, team, player, otherTeam, time) {
     this.timesArray.push(time);
-    console.log(this.timesArray);
+    // console.log(this.timesArray);
   }
 }
