@@ -1,10 +1,26 @@
 'use strict';
 
-import { getRandomItem, randomUpTo, waitSeconds, getDataFrom, getRandomBetween } from './helpers.js';
-import { buildTeam } from './builders/TeamBuilder.js';
-import { Stats } from './models/Stats.js';
-import { Commentator } from './models/Commentator.js';
-import { TimeTacker } from './models/TimeTracker.js';
+// Kontrol edilecek
+
+import {
+  getRandomItem,
+  randomUpTo,
+  waitSeconds,
+  getDataFrom,
+  getRandomBetween
+} from './helpers.js';
+import {
+  buildTeam
+} from './builders/TeamBuilder.js';
+import {
+  Stats
+} from './models/Stats.js';
+import {
+  Commentator
+} from './models/Commentator.js';
+import {
+  TimeTacker
+} from './models/TimeTracker.js';
 
 const fenerbahceData = await getDataFrom('./data/teams/fenerbahce.json');
 const galatasarayData = await getDataFrom('./data/teams/galatasaray.json');
