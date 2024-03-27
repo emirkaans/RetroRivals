@@ -6,13 +6,21 @@ import { Renderer } from './Renderer.js';
 export class CommentRenderer extends Renderer {
   constructor(element) {
     super(element);
+    this.secondElement = document.querySelector('#time');
   }
 
-  async render(commentsArray) {
-    for (const item of commentsArray) {
-      this.element.innerText = item;
+  async render(commentsObject) {
+    for (const item of Object.entries(commentsObject)) {
+      const currentTime = item[0];
+      const comments = item[1];
 
-      await waitSeconds(5);
+      this.secondElement.innerText = currentTime;
+
+      for (const comment of comments) {
+        this.element.innerText = comment;
+
+        await waitSeconds(5);
+      }
     }
   }
 }

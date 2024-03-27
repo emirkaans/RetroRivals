@@ -1,9 +1,18 @@
 'use strict';
 
-export class TimeRenderer extends Renderer {
-  render(timeData) {
-    if (!this.element) return;
+import { waitSeconds } from '../helpers.js';
+import { Renderer } from './Renderer.js';
 
-    this.element.textContent = `Current Time: ${timeData}`;
+export class TimeRenderer extends Renderer {
+  constructor(element) {
+    super(element);
+  }
+
+  async render(commentsArray) {
+    for (const item of commentsArray) {
+      this.element.innerText = item;
+
+      await waitSeconds(5);
+    }
   }
 }

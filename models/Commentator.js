@@ -7,6 +7,7 @@ const comments = data.data.events;
 
 export class Commentator {
   constructor() {
+    this.commentsObject = {};
     this.commentsArray = [];
     this.comments = comments;
     this.controller = new CommentController(this);
@@ -14,38 +15,39 @@ export class Commentator {
 
   update(event, team, player, otherTeam, time) {
     if (event === 'before_match') {
-      this.beforeMatch(team, otherTeam);
+      this.beforeMatch(time, team, otherTeam);
     } else if (event === 'match_start') {
-      this.matchStart(team, otherTeam);
+      this.matchStart(time, team, otherTeam);
     } else if (event === 'first_half_end') {
-      this.finishFirstHalf(team, otherTeam);
+      this.finishFirstHalf(time, team, otherTeam);
     } else if (event === 'second_half_start') {
-      this.startSecondHalf(team, otherTeam);
+      this.startSecondHalf(time, team, otherTeam);
     } else if (event === 'match_end') {
-      this.finishMatch(team, otherTeam);
+      this.finishMatch(time, team, otherTeam);
       this.triggerRender();
+      console.log(this.commentsObject);
     } else if (event === 'goal') {
-      this.goal(team, player, time);
+      this.goal(time, team, player, time);
     } else if (event === 'shot') {
-      this.shot(team, player);
+      this.shot(time, team, player);
     } else if (event === 'corner') {
-      this.corner(team, otherTeam);
+      this.corner(time, team, otherTeam);
     } else if (event === 'gk_save_corner') {
-      this.gkSaveCorner(team, player);
+      this.gkSaveCorner(time, team, player);
     } else if (event === 'gk_save_shot') {
-      this.gkSaveShot(team, player);
+      this.gkSaveShot(time, team, player);
     } else if (event === 'df_save_corner') {
-      this.dfSaveCorner(team, player);
+      this.dfSaveCorner(time, team, player);
     } else if (event === 'fv_shot_corner') {
-      this.fvShotCorner(team, player);
+      this.fvShotCorner(time, team, player);
     } else if (event === 'freekick') {
-      this.freekick(team, player);
+      this.freekick(time, team, player);
     } else if (event === 'gk_save_freekick') {
-      this.gkSaveFreekick(team, player);
+      this.gkSaveFreekick(time, team, player);
     } else if (event === 'penalty') {
-      this.penalty(team, player, otherTeam);
+      this.penalty(time, team, player, otherTeam);
     } else if (event === 'gk_save_penalty') {
-      this.gkSavePenalty(team, player);
+      this.gkSavePenalty(time, team, player);
     }
   }
 
@@ -59,72 +61,109 @@ export class Commentator {
     this.controller.renderMatchComments();
   }
 
-  beforeMatch(teamHome, teamAway) {
-    this.commentsArray.push(this.getRandomComment('before_match').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
+  formatComments(time, comment) {
+    if (typeof this.commentsObject[time] === 'undefined') {
+      this.commentsObject[time] = [];
+    }
+    this.commentsObject[time].push(comment);
   }
 
-  matchStart(teamHome, teamAway) {
-    this.commentsArray.push(this.getRandomComment('match_start').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
+  beforeMatch(time, teamHome, teamAway) {
+    const comment = this.getRandomComment('before_match').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  finishFirstHalf(teamHome, teamAway) {
-    this.commentsArray.push(this.getRandomComment('first_half_end').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
+  matchStart(time, teamHome, teamAway) {
+    const comment = this.getRandomComment('match_start').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  startSecondHalf(teamHome, teamAway) {
-    this.commentsArray.push(this.getRandomComment('second_half_start').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
+  finishFirstHalf(time, teamHome, teamAway) {
+    const comment = this.getRandomComment('first_half_end').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  finishMatch(teamHome, teamAway) {
-    this.commentsArray.push(this.getRandomComment('match_end').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName));
+  startSecondHalf(time, teamHome, teamAway) {
+    const comment = this.getRandomComment('second_half_start').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  shot(teamAttack, footballer) {
-    this.commentsArray.push(this.getRandomComment('shot').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
+  finishMatch(time, teamHome, teamAway) {
+    const comment = this.getRandomComment('match_end').replaceAll('${teamHome.fullName}', teamHome.fullName).replaceAll('${teamAway.fullName}', teamAway.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  goal(teamAttack, footballer) {
-    this.commentsArray.push(this.getRandomComment('goal').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
+  shot(time, teamAttack, footballer) {
+    const comment = this.getRandomComment('shot').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  corner(teamAttack, teamDefence) {
-    this.commentsArray.push(this.getRandomComment('corner').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${teamDefence.fullName}', teamDefence.fullName));
+  goal(time, teamAttack, footballer) {
+    const comment = this.getRandomComment('goal').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  gkSaveCorner(teamDefence, goalKeeper) {
-    this.commentsArray.push(this.getRandomComment('gk_save_corner').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
+  corner(time, teamAttack, teamDefence) {
+    const comment = this.getRandomComment('corner').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${teamDefence.fullName}', teamDefence.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  gkSaveShot(teamDefence, goalKeeper) {
-    this.commentsArray.push(this.getRandomComment('gk_save_shot').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
+  gkSaveCorner(time, teamDefence, goalKeeper) {
+    const comment = this.getRandomComment('gk_save_corner').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  dfSaveCorner(teamDefence, footballer) {
-    this.commentsArray.push(this.getRandomComment('df_save_corner').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
+  gkSaveShot(time, teamDefence, goalKeeper) {
+    const comment = this.getRandomComment('gk_save_shot').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  fvShotCorner(teamAttack, footballer) {
-    this.commentsArray.push(this.getRandomComment('fv_shot_corner').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
+  dfSaveCorner(time, teamDefence, footballer) {
+    const comment = this.getRandomComment('df_save_corner').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${footballer.fullName}', footballer.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  freekick(teamAttack, footballer) {
-    this.commentsArray.push(this.getRandomComment('freekick').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName));
+  fvShotCorner(time, teamAttack, footballer) {
+    const comment = this.getRandomComment('fv_shot_corner').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  gkSaveFreekick(teamDefence, goalKeeper) {
-    this.commentsArray.push(this.getRandomComment('gk_save_freekick').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
+  freekick(time, teamAttack, footballer) {
+    const comment = this.getRandomComment('freekick').replaceAll('${teamAttack.fullName}', teamAttack.fullName).replaceAll('${footballer.fullName}', footballer.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  penalty(teamAttack, footballer, otherTeam) {
-    this.commentsArray.push(
-      this.getRandomComment('penalty')
-        .replaceAll('${teamAttack.fullName}', teamAttack.fullName)
-        .replaceAll('${footballer.fullName}', footballer.fullName)
-        .replaceAll('${goalKeeper.fullName}', otherTeam.getGoalKeeper().fullName)
-    );
+  gkSaveFreekick(time, teamDefence, goalKeeper) {
+    const comment = this.getRandomComment('gk_save_freekick').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName);
+
+    this.formatComments(time, comment);
   }
 
-  gkSavePenalty(teamDefence, goalKeeper) {
-    this.commentsArray.push(this.getRandomComment('gk_save_penalty').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName));
+  penalty(time, teamAttack, footballer, otherTeam) {
+    const comment = this.getRandomComment('penalty')
+      .replaceAll('${teamAttack.fullName}', teamAttack.fullName)
+      .replaceAll('${footballer.fullName}', footballer.fullName)
+      .replaceAll('${goalKeeper.fullName}', otherTeam.getGoalKeeper().fullName);
+
+    this.formatComments(time, comment);
+  }
+
+  gkSavePenalty(time, teamDefence, goalKeeper) {
+    const comment = this.getRandomComment('gk_save_penalty').replaceAll('${teamDefence.fullName}', teamDefence.fullName).replaceAll('${goalKeeper.fullName}', goalKeeper.fullName);
+
+    this.formatComments(time, comment);
   }
 }

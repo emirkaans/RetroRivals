@@ -2,25 +2,11 @@
 
 // Kontrol edilecek
 
-import {
-  getRandomItem,
-  randomUpTo,
-  waitSeconds,
-  getDataFrom,
-  getRandomBetween
-} from './helpers.js';
-import {
-  buildTeam
-} from './builders/TeamBuilder.js';
-import {
-  Stats
-} from './models/Stats.js';
-import {
-  Commentator
-} from './models/Commentator.js';
-import {
-  TimeTacker
-} from './models/TimeTracker.js';
+import { getRandomItem, randomUpTo, waitSeconds, getDataFrom, getRandomBetween } from './helpers.js';
+import { buildTeam } from './builders/TeamBuilder.js';
+import { Stats } from './models/Stats.js';
+import { Commentator } from './models/Commentator.js';
+import { TimeTracker } from './models/TimeTracker.js';
 
 const fenerbahceData = await getDataFrom('./data/teams/fenerbahce.json');
 const galatasarayData = await getDataFrom('./data/teams/galatasaray.json');
@@ -49,7 +35,7 @@ class Match {
     this._setWhoHasBall(teamHome);
     this.addObserver(new Commentator());
     this.addObserver(new Stats(teamHome, teamAway));
-    this.addObserver(new TimeTacker());
+    this.addObserver(new TimeTracker());
     this.setStats();
     this.setCommentator();
   }
@@ -164,10 +150,12 @@ class Match {
   }
 
   finishFirstHalf() {
+    this.time = 45;
     this.notifyObservers('first_half_end', this.teamHome, undefined, this.teamAway);
   }
 
   startSecondHalf() {
+    this.time = 45;
     this.notifyObservers('second_half_start', this.teamHome, undefined, this.teamAway);
   }
 
@@ -198,6 +186,8 @@ class Match {
     this.notifyObservers('before_start', this.teamHome, undefined, this.teamAway);
     this.notifyObservers('match_start', this.teamHome, undefined, this.teamAway);
 
+    this.time += randomUpTo(5);
+
     while (this.time < 45) {
       this.triggerEvents();
     }
@@ -209,6 +199,8 @@ class Match {
     console.log('=========================');
 
     this.startSecondHalf();
+
+    this.time += randomUpTo(5);
 
     while (this.time < 90) {
       this.triggerEvents();
@@ -236,6 +228,6 @@ const match1 = new Match(fenerbahce, galatasaray);
 // const match3 = new Match(besiktas, galatasaray);
 
 match1.startMatch();
-console.log(match1);
+// console.log(match1);
 // match2.startMatch();
 // match3.startMatch();

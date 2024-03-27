@@ -11,8 +11,8 @@ export class CommentController {
   }
 
   renderMatchComments() {
-    const comments = this.commentator.commentsArray;
-
+    const comments = this.commentator.commentsObject;
+  
     this.renderer.render(comments);
   }
 }
