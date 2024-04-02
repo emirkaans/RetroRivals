@@ -12,12 +12,38 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50vh;
+  /* height: 50vh; */
   padding: 0.5em;
 }
 
+.teams {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5em 2em;
+  padding: 2em;
+  gap: 2em;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5em 2em;
+  margin-bottom: 0;
+  padding: 0.5em;
+  color: wheat;
+  font-size: 2rem;
+  gap: 1em;
+}
+
+.team_flag {
+  width: 15rem;
+}
+
 #time {
-  margin: 2em;
+  margin: 0 2em 2em 2em;
   padding: 1em;
   align-items: center;
   justify-content: center;

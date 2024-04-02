@@ -6,18 +6,16 @@ export class Team {
   constructor(fullName, budget, members) {
     this.fullName = fullName;
     this.budget = budget;
-    this.members = members;
 
-    this._parseMembers();
+    this._parseMembers(members);
     this._calculateTeamAttack();
     this._calculateTeamDefense();
     this._setTeamToPlayers();
   }
 
-  _parseMembers() {
-    this.manager = this.members.find(member => member instanceof Manager);
-    this.players = this.members.filter(member => !(member instanceof Manager));
-    delete this.members;
+  _parseMembers(members) {
+    this.manager = members.find(member => member instanceof Manager);
+    this.players = members.filter(member => !(member instanceof Manager));
   }
 
   addPlayer(newPlayer) {

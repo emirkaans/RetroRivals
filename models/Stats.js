@@ -3,6 +3,7 @@
 export class Stats {
   constructor(teamHome, teamAway) {
     this._setTeamsStatistics([teamHome, teamAway]);
+    this.goalsObject = {};
   }
 
   update(event, team, player, otherTeam, time) {
@@ -72,6 +73,9 @@ export class Stats {
     currentTeam.team.goalTimes.push(time);
     currentPlayer.goals++;
     currentPlayer.shots++;
+
+    this.goalsObject[time] = { team: team.fullName, score: currentTeam.team.score };
+    console.log(this.goalsObject);
   }
 
   shot(team, player) {
